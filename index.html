@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lịch chuẩn bị đám cưới</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Bố cục: trục luồng trái sang phải → bộ ghép ngày ăn hỏi với ngày cưới → nhánh việc
+   → ghi chú tuổi → chi phí. Màu kẹo: hồng phấn, xanh bạc hà, vàng bơ; thêm đỏ gạch
+   riêng cho mức "nên tránh" để không lẫn với màu nhấn. */
+:root{
+  --bg:#fff5f7; --surface:#ffffff; --ink:#4a2a39; --muted:#836674; --line:#f6dbe2; --wire:#e4a3b6;
+  --rose:#c9335f; --rose-soft:#ffe3eb;
+  --mint:#1b7f5d; --mint-soft:#dbf6eb;
+  --butter:#8a5c00; --butter-soft:#fff1c9;
+  --danger:#a3271b; --danger-soft:#ffe0da;
+  --on-rose:#ffffff; --shadow:0 6px 20px rgba(201,51,95,.10);
+  --display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#23151c; --surface:#2f1f28; --ink:#fdeef3; --muted:#cfb0bd; --line:#4b3541; --wire:#8f6475;
+    --rose:#ff8fb0; --rose-soft:#57263b;
+    --mint:#7fe0b9; --mint-soft:#1e4537;
+    --butter:#f6cf72; --butter-soft:#43340f;
+    --danger:#ff9e8c; --danger-soft:#4e241c;
+    --on-rose:#2a121d; --shadow:0 6px 20px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#23151c; --surface:#2f1f28; --ink:#fdeef3; --muted:#cfb0bd; --line:#4b3541; --wire:#8f6475;
+  --rose:#ff8fb0; --rose-soft:#57263b;
+  --mint:#7fe0b9; --mint-soft:#1e4537;
+  --butter:#f6cf72; --butter-soft:#43340f;
+  --danger:#ff9e8c; --danger-soft:#4e241c;
+  --on-rose:#2a121d; --shadow:0 6px 20px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  background:radial-gradient(620px 300px at 8% -60px,var(--rose-soft),transparent 70%),radial-gradient(520px 280px at 96% -40px,var(--butter-soft),transparent 70%),var(--bg);background-repeat:no-repeat}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 18px 70px;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(26px,4.4vw,36px);font-weight:700}
+h2{font-size:25px;font-weight:700}
+h3{font-size:18px;font-weight:600}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.emo{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;line-height:1}
+.sec-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;justify-content:space-between;margin-bottom:14px}
+.sec-head p{color:var(--muted);font-size:14.5px;max-width:62ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+[hidden]{display:none!important}
+button:focus-visible,input:focus-visible{outline:3px solid var(--mint);outline-offset:2px}
+
+/* Đếm ngược */
+.cd{display:inline-block;font-size:12.5px;font-weight:800;padding:2px 9px;border-radius:999px;background:var(--mint-soft);color:var(--mint);white-space:nowrap}
+.cd.soon{background:var(--rose-soft);color:var(--rose)}
+.cd.past{background:var(--line);color:var(--muted)}
+
+/* Nút */
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:800 14px var(--body);padding:9px 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--rose);border-color:var(--rose);color:var(--on-rose)}
+.btn:hover{filter:brightness(.96)}
+.btn:disabled{opacity:.45;cursor:default}
+.progress{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-bottom:6px}
+.progress i{display:block;height:100%;background:var(--mint);border-radius:999px;width:0;transition:width .3s}
+.progress-t{font-size:13.5px;color:var(--muted);margin-bottom:14px}
+
+/* Trục luồng trái sang phải */
+.track-scroll{overflow-x:auto}
+.track{display:flex;align-items:flex-start;min-width:1340px;padding:34px 18px 14px}
+.stop{position:relative;flex:0 0 auto;min-width:92px;padding-left:5px;padding-right:5px;display:flex;flex-direction:column;align-items:center;padding:0 0 18px;background:none;border:0;font:inherit;color:inherit;border-radius:14px}
+button.stop{cursor:pointer}
+.stop.term{min-width:64px}
+.bub{position:relative;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;transition:transform .2s,box-shadow .2s;
+  background:conic-gradient(var(--mint) calc(var(--p,0)*1%),var(--line) 0)}
+.bub::before{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--surface)}
+.bub .emo{position:relative;font-size:27px}
+.stop.key .bub::before{background:var(--rose-soft)}
+.stop.tet .bub::before{background:var(--butter-soft)}
+.stop.term .bub{width:46px;height:46px;margin:7px 0;background:var(--mint-soft)}
+.stop.term .bub::before{display:none}
+.stop.term .bub .emo{font-size:22px}
+.bub .n{position:absolute;right:-5px;top:-5px;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--ink);color:var(--surface);border:2px solid var(--surface)}
+.stop .lb{margin-top:9px;font-size:13.5px;font-weight:800;line-height:1.25;white-space:nowrap}
+.stop .dt{font-size:12px;color:var(--muted);white-space:nowrap;margin-bottom:3px}
+.stop .cd{font-size:11.5px;padding:1px 8px}
+.stop .tc{margin-top:4px;font-size:11.5px;font-weight:800;color:var(--butter);background:var(--butter-soft);padding:1px 8px;border-radius:999px;white-space:nowrap}
+.stop .tc[hidden]{display:none}
+.sbtn.sync{cursor:default;border-style:dashed}
+.sbtn.sync.on{color:var(--mint);border-color:var(--mint);background:var(--mint-soft);border-style:solid}
+.sbtn.sync.wait{color:var(--butter);border-color:var(--butter);background:var(--butter-soft)}
+button.stop:hover .bub{transform:translateY(-3px)}
+.stop[aria-pressed="true"] .bub{transform:scale(1.13);box-shadow:0 0 0 4px var(--rose-soft),0 8px 16px rgba(201,51,95,.22)}
+.stop[aria-pressed="true"] .lb{color:var(--rose)}
+.stop[aria-pressed="true"] .bub .n{background:var(--rose);color:var(--on-rose)}
+.stop[aria-pressed="true"]::after{content:"";position:absolute;bottom:0;left:50%;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top:10px solid var(--rose)}
+.here{position:absolute;top:-26px;font-size:11.5px;font-weight:800;padding:1px 9px;border-radius:999px;background:var(--mint);color:var(--surface);white-space:nowrap}
+.arr{position:relative;flex:1 1 0;min-width:14px;height:2px;margin-top:29px;background:repeating-linear-gradient(90deg,var(--wire) 0 6px,transparent 6px 10px)}
+.arr::after{content:"";position:absolute;right:-2px;top:-4px;border:5px solid transparent;border-right:0;border-left:8px solid var(--wire)}
+.arr .lab{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:11.5px;font-weight:800;color:var(--rose);white-space:nowrap}
+
+
+/* Bộ lọc bên */
+.sidebar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.sbtn{font:800 14px var(--body);padding:9px 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.sbtn[aria-pressed="true"]{border-color:var(--rose);background:var(--rose);color:var(--on-rose)}
+.sinfo{font-size:13.5px;font-weight:700;color:var(--muted)}
+.wchip{font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.wCD{background:var(--rose-soft);color:var(--rose)}
+.wCR{background:var(--mint-soft);color:var(--mint)}
+.wCC{background:var(--butter-soft);color:var(--butter)}
+.pchip{border:1.5px dashed currentColor;background:none}
+.nt textarea,.padcard textarea{width:100%;margin-top:6px;font:400 14px var(--body);line-height:1.5;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 12px;resize:vertical}
+.nt textarea:focus,.padcard textarea:focus{border-color:var(--mint);outline:none}
+.nt{margin-top:7px;max-width:64ch}
+.padcard{width:100%;background:var(--butter-soft);border:2px dashed var(--butter);border-radius:18px;padding:13px 15px;max-width:66ch}
+.padcard strong{font-size:14.5px;color:var(--butter)}
+.note-btn{color:var(--mint)}
+.note-btn:hover{background:var(--mint-soft)}
+.wQ{background:var(--surface);color:var(--muted);border:2px dashed var(--wire)}
+button.wchip{cursor:pointer;font-family:var(--body)}
+button.wchip:hover{filter:brightness(.95)}
+.task .chips{grid-column:1/3;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:7px 0 0 32px}
+.more{border:0;background:none;color:var(--rose);font:800 12.5px var(--body);cursor:pointer;padding:2px 4px;border-radius:8px}
+.more:hover{background:var(--rose-soft)}
+.lu{font-size:13.5px;line-height:1.5;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:10px 13px;margin-top:7px;max-width:64ch}
+@media (max-width:899.98px){.task .chips{margin-left:0}}
+
+/* Cặp ngày */
+.pairs{display:flex;flex-direction:column;gap:9px}
+.pair{position:relative;display:grid;grid-template-columns:1fr auto 1fr;gap:6px 12px;align-items:center;width:100%;padding:12px 13px;text-align:left;font:inherit;color:inherit;background:var(--bg);border:2px solid var(--line);border-radius:18px;cursor:pointer}
+.pair:hover{border-color:var(--wire)}
+.pair.sel{border-color:var(--rose);background:var(--surface);box-shadow:0 0 0 3px var(--rose-soft)}
+.pair .side{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pair .rol{font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pair .dd{font-family:var(--display);font-size:16.5px;font-weight:700;line-height:1.2}
+.pair .am{font-size:12.5px;color:var(--muted)}
+.pair .mid{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--wire)}
+.pair .mid b{font-size:11.5px;font-weight:800;color:var(--muted);white-space:nowrap}
+.pair .mid .ar{font-size:19px;line-height:1;color:var(--rose)}
+.pair .foot{grid-column:1/4;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:3px}
+.star{font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:999px;background:var(--rose);color:var(--on-rose)}
+@media (max-width:620px){
+  .pair{grid-template-columns:1fr}
+  .pair .mid{flex-direction:row;gap:7px;justify-content:flex-start}
+  .pair .mid .ar{transform:rotate(90deg)}
+}
+
+/* Kết luận cặp ngày */
+.verdict{margin-top:14px;border-radius:18px;padding:16px;border:2px solid var(--line);background:var(--bg)}
+.verdict.v1{border-color:var(--mint);background:var(--mint-soft)}
+.verdict.v2{border-color:var(--butter);background:var(--butter-soft)}
+.verdict.v3{border-color:var(--danger);background:var(--danger-soft)}
+.v-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:4px}
+.v-head strong{font-family:var(--display);font-size:19px;font-weight:700}
+.v-gap{font-size:13.5px;font-weight:800;color:var(--muted)}
+.v-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.v-box{background:var(--surface);border-radius:14px;padding:12px 14px}
+.v-box h4{margin:0 0 6px;font-size:14px;font-family:var(--display);font-weight:700}
+.v-box ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:5px}
+.v-box li{font-size:13.5px}
+.v-box li.g::marker{content:"✓  "}
+.v-box li.b::marker{content:"✕  "}
+.v-box li.g{color:var(--mint)}
+.v-box li.b{color:var(--danger)}
+.v-box li span{color:var(--ink)}
+
+/* Popup chi phí */
+.money{display:inline-flex;align-items:center;gap:6px;font:800 13.5px var(--body);padding:4px 12px;border-radius:999px;background:var(--butter-soft);color:var(--butter);border:2px solid transparent;cursor:pointer}
+.money:hover{border-color:var(--butter)}
+.money.big{font-size:15px;padding:7px 15px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(40,16,27,.52);display:grid;place-items:center;padding:16px}
+.mbox{background:var(--surface);border-radius:22px;max-width:660px;width:100%;max-height:86vh;overflow:auto;padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.3);position:relative}
+.mbox h3{padding-right:40px;font-size:21px}
+.mbox .msub{font-size:13.5px;color:var(--muted);margin-top:2px}
+.mclose{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);font:800 16px var(--body);cursor:pointer}
+.mclose:hover{background:var(--line)}
+.mrow{display:grid;grid-template-columns:1fr 104px;gap:3px 14px;align-items:start;padding:11px 0;border-bottom:1px dashed var(--line)}
+.mrow .mn{grid-column:1/2;font-weight:700;font-size:14.5px}
+.mrow .md{font-size:13px;color:var(--muted);grid-column:1/2}
+.mrow .mv{grid-column:2/3;grid-row:1/3;font-weight:800;text-align:right;white-space:nowrap;font-size:14px}
+.mrow .mbar{grid-column:1/3;height:9px;border-radius:999px;background:var(--bg);position:relative;overflow:hidden;margin-top:5px}
+.mrow .mbar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px}
+.mrow .mbar .hi{background:var(--rose-soft)}
+.mrow .mbar .lo{background:var(--rose)}
+.mtot{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:4px}
+.mtot b{font-family:var(--display);font-size:19px}
+.mtot .v{font-family:var(--display);font-size:22px;font-weight:700;color:var(--rose)}
+.mnote{font-size:13px;color:var(--muted);margin-top:12px;border-top:2px dashed var(--line);padding-top:10px}
+.knobs{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end;padding:12px 0 14px;border-bottom:2px dashed var(--line);margin-bottom:4px}
+.knobs label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700;color:var(--muted)}
+.knobs input{font:800 16px var(--body);width:116px;padding:8px 12px;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink)}
+.knobs .eq{flex:1 0 100%;font-size:14px;font-weight:700;padding:4px 0 2px;line-height:1.5}
+
+/* Nhánh việc */
+.stage{margin-top:16px}
+.panel{padding:18px}
+.pcard{display:flex;flex-direction:column;gap:3px;padding:16px;border-radius:20px;background:var(--bg);border:2px solid var(--line)}
+.panel.key .pcard{background:var(--rose-soft);border-color:var(--wire)}
+.panel.tet .pcard{background:var(--butter-soft);border-color:var(--butter)}
+.pc-ico{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:32px;background:var(--surface);margin-bottom:8px}
+.pcard strong{font-family:var(--display);font-size:21px;font-weight:700;line-height:1.2}
+.pcard small{font-size:13.5px;font-weight:700;color:var(--muted)}
+.pcard .note{font-size:14px;color:var(--muted);margin-top:8px}
+.pc-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;font-size:13.5px;font-weight:700}
+.cost[hidden]{display:none}
+.cost{font-size:13.5px;font-weight:800;white-space:nowrap;padding:2px 10px;border-radius:999px;background:var(--butter-soft);color:var(--butter)}
+.grp{position:relative;display:flex;gap:10px;align-items:center;width:100%;min-height:54px;padding:8px 38px 8px 9px;text-align:left;font:inherit;color:inherit;background:var(--bg);border:2px solid var(--line);border-radius:18px;cursor:pointer}
+.grp:hover,.grp[aria-expanded="true"]{border-color:var(--wire)}
+.g-ico{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:19px;background:var(--surface)}
+.g-tx{display:flex;flex-direction:column;min-width:0}
+.g-tx strong{font-size:15px;font-weight:800;line-height:1.25}
+.g-tx .meta{font-size:12.5px;color:var(--muted)}
+.pm{position:absolute;right:11px;top:17px;width:20px;height:20px;border-radius:50%;background:var(--rose);opacity:.9}
+.pm::before,.pm::after{content:"";position:absolute;left:5px;right:5px;top:9px;height:2px;border-radius:2px;background:var(--on-rose)}
+.pm::after{transform:rotate(90deg);transition:transform .2s}
+[aria-expanded="true"]>.pm{background:var(--wire)}
+[aria-expanded="true"]>.pm::after{transform:none}
+.kids{position:relative;display:flex;flex-direction:column}
+.kid{position:relative;padding-bottom:12px}
+.kid::before,.kid::after{content:"";position:absolute;pointer-events:none}
+.ah{position:absolute;left:-8px;top:22px;border:5px solid transparent;border-right:0;border-left:8px solid var(--wire)}
+.task{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start;padding:11px 13px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px}
+.task label{display:flex;gap:10px;cursor:pointer;min-width:0}
+.task input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:1px 0 0;border:2px solid var(--wire);border-radius:8px;background:var(--surface);display:grid;place-content:center;cursor:pointer}
+.task input::after{content:"\2665\FE0E";font-size:13px;line-height:1;color:var(--on-rose);transform:scale(0);transition:transform .15s}
+.task input:checked{background:var(--rose);border-color:var(--rose)}
+.task input:checked::after{transform:scale(1)}
+.task .tx{display:flex;flex-direction:column}
+.task .tx>span{font-weight:700}
+.task .tx small{font-size:13.5px;color:var(--muted)}
+.task input:checked+.tx>span{text-decoration:line-through;color:var(--muted)}
+.alts{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.alt{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;background:var(--surface);border:1.5px dashed var(--wire);border-radius:14px;padding:9px 13px;font-size:13.5px}
+.alt b{font-size:14.5px}
+.alt .why{color:var(--muted);width:100%}
+
+@media (min-width:900px){
+  .tree{display:grid;grid-template-columns:252px 1fr;align-items:start}
+  .kids{padding-left:44px}
+  .kid:last-child{padding-bottom:0}
+  .kid:first-child::before{left:-44px;top:26px;width:38px;border-top:2px solid var(--wire)}
+  .kid:not(:first-child)::before{left:-22px;top:0;width:16px;height:28px;border-left:2px solid var(--wire);border-bottom:2px solid var(--wire);border-bottom-left-radius:14px}
+  .kid:not(:last-child)::after{left:-22px;top:0;bottom:0;border-left:2px solid var(--wire)}
+  .kid:first-child:not(:last-child)::after{top:27px}
+  .grp-row{display:grid;grid-template-columns:216px 1fr;align-items:start}
+}
+@media (max-width:899.98px){
+  .kids{padding:12px 0 0 32px}
+  .l2>.kid:last-child,.l1>.kid:last-child{padding-bottom:0}
+  .kid::before{left:-18px;top:-12px;width:12px;height:40px;border-left:2px solid var(--wire);border-bottom:2px solid var(--wire);border-bottom-left-radius:12px}
+  .kid:not(:last-child)::after{left:-18px;top:0;bottom:0;border-left:2px solid var(--wire)}
+  .task{grid-template-columns:1fr}
+  .task .cost{justify-self:start;margin-left:32px}
+  .panel{padding:14px}
+  .mapgrid{grid-template-columns:1fr;gap:16px}
+  .col-mid{padding:0}
+  .col-mid .hint::before{content:"⬇ ";font-size:17px}
+  .v-cols{grid-template-columns:1fr}
+  #link{display:none}
+}
+
+/* Ghi chú tuổi */
+
+@media (prefers-reduced-motion:no-preference){
+  .panel:not([hidden]),.kids.l2:not([hidden]){animation:open .25s ease-out}
+  @keyframes open{from{opacity:.35;translate:0 -5px}to{opacity:1;translate:0 0}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section>
+  <div class="sec-head">
+    <div>
+      <h1>Sơ đồ luồng chuẩn bị đám cưới <span class="emo" aria-hidden="true">💕</span></h1>
+      <p>Đi từ trái sang phải. Bấm vào một bong bóng để xem các nhánh việc của bước đó.</p>
+    </div>
+    <div class="tools">
+      <button class="btn primary" id="next" type="button">Mở nhánh tiếp theo ➜</button>
+      <button class="btn" id="all" type="button">Mở hết bước này</button>
+      <button class="btn" id="none" type="button">Thu gọn</button>
+    </div>
+  </div>
+  <div class="sidebar" id="sidebar">
+    <button class="sbtn" type="button" data-side="all" aria-pressed="true">👫 Tất cả</button>
+    <button class="sbtn" type="button" data-side="CD" aria-pressed="false">👰 Cô dâu</button>
+    <button class="sbtn" type="button" data-side="CR" aria-pressed="false">🤵 Chú rể</button>
+    <span class="sinfo" id="sinfo"></span>
+    <span class="sbtn sync off" id="sync" style="margin-left:auto">💻 Lưu trên máy này</span>
+    <button class="sbtn" type="button" id="backup">💾 Sao lưu / khôi phục</button>
+    <button class="sbtn" type="button" id="clearDone">↺ Xóa hết dấu tích</button>
+    <button class="sbtn" type="button" id="copyNotes">📋 Chép hết ghi chú</button>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="pbar"></i></div>
+  <p class="progress-t" id="ptext"></p>
+  <p style="margin:-6px 0 14px"><button class="money big" id="totalBtn" type="button">💰 <span id="totalTxt"></span> · xem chi tiết</button> <button class="money big" id="refBtn" type="button" style="background:var(--mint-soft);color:var(--mint)">📗 Bảng gốc từ file Excel</button></p>
+  <div class="track-scroll card" id="scroller"><div class="track" id="track"></div></div>
+  <div class="stage" id="stage"></div>
+</section>
+
+</div>
+<div class="modal" id="modal" hidden><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mtitle"><button class="mclose" id="mclose" type="button" aria-label="Đóng">✕</button><h3 id="mtitle"></h3><p class="msub" id="msub"></p><div id="mbody"></div></div></div>
+
+<script>
+const D=(y,m,d)=>new Date(y,m-1,d);
+const DAY=864e5;
+const days=(a,b)=>Math.round((a-b)/DAY);
+const today=(()=>{const n=new Date();return D(n.getFullYear(),n.getMonth()+1,n.getDate())})();
+const addD=(d,n)=>new Date(d.getTime()+n*DAY);
+const WD=['Chủ nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+const dm=d=>d.getDate()+'/'+(d.getMonth()+1);
+const dmy=d=>dm(d)+'/'+d.getFullYear();
+const full=d=>WD[d.getDay()]+' '+dmy(d);
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const emo=e=>`<span class="emo" aria-hidden="true">${e}</span>`;
+const calm=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function cdText(d){
+  const n=days(d,today);
+  if(n>0)return{t:'Còn '+n+' ngày',c:n<=30?'soon':''};
+  if(n===0)return{t:'Hôm nay',c:'soon'};
+  return{t:'Đã qua '+(-n)+' ngày',c:'past'};
+}
+const cdHTML=d=>{const c=cdText(d);return `<span class="cd num ${c.c}">${c.t}</span>`};
+function cdRange(s,e){
+  if(today>e)return{t:'Đã xong giai đoạn',c:'past'};
+  if(today>=s)return{t:'Đang diễn ra, còn '+days(e,today)+' ngày',c:'soon'};
+  return cdText(s);
+}
+
+/* ---------- ngày và cặp ngày ---------- */
+const HOI={
+ h11:{d:D(2027,3,11),am:'mùng 4 tháng Hai',cc:'Kỷ Sửu',truc:'Khai',lvl:3,
+  g:['Trực Khai hợp việc cưới hỏi','Nạp âm Sơn Đầu Hỏa sinh mệnh Thành Đầu Thổ của hai bạn','Chợ Giá chấm là ngày tốt, có sao Thiên Hỷ'],
+  b:['Phạm Sát Chủ Dương — sao kỵ thẳng việc cưới gả, xemlicham loại hẳn khỏi danh sách','Sửu xung Mùi, tức xung năm Đinh Mùi','Thứ Năm, người nhà và khách phải xin nghỉ làm']},
+ h13:{d:D(2027,3,13),am:'mùng 6 tháng Hai',cc:'Tân Mão',truc:'Kiến',lvl:2,
+  g:['Thứ Bảy, khách dễ sắp xếp nhất','Mão tam hợp Mùi, hợp năm Đinh Mùi','Trùng chi với cô dâu, không xung ai','Nhiều khung giờ hoàng đạo dùng được nhất'],
+  b:['Phạm Trùng Phục — sách Trung Hoa coi là ngày hợp việc vui, nhưng lịch Việt kiêng cưới hỏi','Trực Kiến bị chấm là duyên dễ chóng phai, khó bền','Nạp âm Tùng Bách Mộc khắc mệnh Thổ của cả hai bạn']},
+ h16:{d:D(2027,3,16),am:'mùng 9 tháng Hai',cc:'Giáp Ngọ',truc:'Bình',lvl:1,
+  g:['Một trong hai ngày tốt duy nhất của tháng, chấm 66% cho ăn hỏi','Không vướng sao kỵ nào','Ngọ tam hợp Dần, hợp tuổi chú rể'],
+  b:['Thứ Ba, ngày đi làm','Mão phá Ngọ — quan hệ nhẹ, bất lợi nhỏ cho cô dâu']},
+ h26:{d:D(2027,3,26),am:'19 tháng Hai',cc:'Giáp Thìn',truc:'Trừ',lvl:2,
+  g:['Thứ Sáu, liền ngay trước ngày cưới 28/3','Không phải Tam nương cũng không phải Nguyệt kỵ','Khách ở xa chỉ phải đi một chuyến'],
+  b:['Phạm Thụ Tử — lịch cổ ghi ngày này xấu cho mọi việc, chỉ trừ săn bắn','Thìn hại Mão, bất lợi cho cô dâu','Trực Trừ bị chấm là xấu cho cưới hỏi, duyên dễ tàn']},
+ h28:{d:D(2027,3,28),am:'21 tháng Hai',cc:'Bính Ngọ',truc:'Bình',lvl:1,
+  g:['Lễ hỏi buổi sáng, rước dâu buổi trưa, tiệc buổi chiều','Ngày điểm cao nhất tháng, 72%','Chỉ tụ họp một lần nên đỡ tốn kém và đỡ mệt'],
+  b:['Một ngày rất dày việc, nhà gái phải dậy từ 4–5 giờ sáng','Họ hàng xa chỉ dự được một lễ thay vì hai']}
+};
+const CUOI={
+ c13:{d:D(2027,3,13),am:'mùng 6 tháng Hai',cc:'Tân Mão',truc:'Kiến',lvl:2,
+  g:['Thứ Bảy, khách dễ đi nhất','Mão tam hợp Mùi, hợp năm Đinh Mùi','Ba khung giờ đẹp dùng được: Mão 5–7h, Ngọ 11–13h, Mùi 13–15h'],
+  b:['Phạm Trùng Phục, lịch Việt kiêng cưới hỏi','Trực Kiến bị chấm là duyên dễ chóng phai','Nạp âm Tùng Bách Mộc khắc mệnh Thổ của hai bạn','Chỉ còn 26 ngày sau Tết để chạy nốt việc']},
+ c16:{d:D(2027,3,16),am:'mùng 9 tháng Hai',cc:'Giáp Ngọ',truc:'Bình',lvl:1,
+  g:['Ngày tốt thứ nhì của tháng, chấm 64%','Không vướng sao kỵ nào','Ngọ tam hợp Dần, hợp tuổi chú rể'],
+  b:['Thứ Ba — cưới ngày đi làm, khách vắng mà chi phí vẫn như thường','Mão phá Ngọ, bất lợi nhỏ cho cô dâu','Chỉ còn 29 ngày sau Tết để chạy nốt việc']},
+ c28:{d:D(2027,3,28),am:'21 tháng Hai',cc:'Bính Ngọ',truc:'Bình',lvl:1,
+  g:['Ngày cưới điểm cao nhất tháng 3/2027, chấm 72%','Chủ nhật, cả nhà và khách đều rảnh','Không vướng sao kỵ nào','Ngọ tam hợp Dần, hợp tuổi chú rể','Nạp âm Sơn Hạ Hỏa sinh mệnh Thổ của hai bạn','Có 41 ngày sau Tết để chuẩn bị'],
+  b:['Mão phá Ngọ — quan hệ nhẹ, bất lợi nhỏ cho cô dâu','Bỏ giờ Thân 15–17h và giờ Dậu 17–19h vì xung tuổi hai bạn; còn dùng giờ Mão 5–7h và giờ Ngọ 11–13h']},
+ c416:{d:D(2027,4,16),am:'mùng 10 tháng Ba',cc:'Ất Sửu',truc:'',lvl:3,
+  g:['Thứ Sáu, mở ra trọn một cuối tuần','Lùi thêm 3 tuần nên thong thả chuẩn bị hơn'],
+  b:['Cả tháng 4/2027 không có ngày nào tốt trọn vẹn để cưới hỏi','Nguồn xếp 16/4 vào nhóm phạm Tam nương, Sát Chủ Dương hoặc Dương Công Kỵ Nhật; mùng 10 không phải Tam nương nên rơi vào một trong hai sao còn lại, cả hai đều là mức loại hẳn','Sửu xung Mùi, xung năm Đinh Mùi']}
+};
+const PAIRS=[
+ {id:'p1',h:'h16',c:'c28',lvl:1,star:1,tag:'Nên chọn',why:'Ngày cưới điểm cao nhất tháng, ăn hỏi cũng là ngày tốt.'},
+ {id:'p2',h:'h28',c:'c28',lvl:1,tag:'Gộp một ngày',why:'Gộp hai lễ vào ngày đẹp nhất. Gọn và tiết kiệm nhất, đổi lại một ngày rất dày việc.'},
+ {id:'p3',h:'h26',c:'c28',lvl:2,tag:'Trọn một cuối tuần',why:'Thứ Sáu hỏi, Chủ nhật cưới. Khách xa đi một chuyến, nhưng ngày hỏi phạm Thụ Tử.'},
+ {id:'p4',h:'h13',c:'c28',lvl:2,tag:'Ăn hỏi Thứ Bảy',why:'Cả hai lễ đều cuối tuần. Ngày hỏi vướng Trùng Phục và Trực Kiến.'},
+ {id:'p5',h:'h13',c:'c16',lvl:2,tag:'Cưới sớm 12 ngày',why:'Cả hai dồn vào giữa tháng Hai âm. Cưới Thứ Ba và chỉ còn 29 ngày sau Tết để chạy việc.'},
+ {id:'p6',h:'h11',c:'c28',lvl:3,tag:'Ăn hỏi mùng 4/2',why:'Ngày cưới vẫn đẹp, nhưng ngày hỏi phạm Sát Chủ Dương nên bị loại hẳn khỏi danh sách.'},
+ {id:'p7',h:'h16',c:'c416',lvl:3,tag:'Lùi sang tháng Ba âm',why:'Phương án dự phòng nếu nhà không ưng cuối tháng 3. Cả tháng 4 không có ngày tốt nào.'}
+];
+const LVNAME=['','Tốt','Cân nhắc','Nên tránh'], LVICO=['','✅','⚠️','⛔'];
+const WN={CD:'👰 Cô dâu',CR:'🤵 Chú rể',CC:'👫 Việc chung','?':'➕ Chưa phân'};
+const PN={CD:'Thanh toán: Nhà gái',CR:'Thanh toán: Nhà trai',CC:'Thanh toán: Hai nhà chia'};
+const sideOf=k=>{const w=k.w||'CC';return w==='?'?(state.assign[tid(k)]||'?'):w};
+const visible=k=>{const f=state.side||'all';const w=sideOf(k);return f==='all'||w==='CC'||w==='?'||w===f||((k.p||'CC')==='CC'&&!!costOf(k))};
+
+/* ---------- lưu trạng thái ---------- */
+const KEY='lich-cuoi-v8';
+let state={done:{},assign:{},notes:{},pnotes:{},tablesCR:70,tablesCD:70,hoiCR:30,hoiCD:30,dnCD:5,dnPrice:1.3,priceLo:2,priceHi:2,pair:'p1',side:'all'};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==='object')state=Object.assign(state,s)}catch(e){}
+if(!state.assign)state.assign={};
+if(!state.notes)state.notes={};
+if(!state.pnotes)state.pnotes={};
+if(!state.que3){state.tablesCR=70;state.tablesCD=70;state.hoiCR=30;state.hoiCD=30;state.priceLo=2;state.priceHi=2;state.que3=1}
+if(!state.que4){state.dnCD=5;state.dnPrice=1.3;state.que4=1}
+var onSave=null;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} if(onSave)onSave()};
+if(!state.clr1){state.done={};state.clr1=1;save()}
+const getPair=()=>PAIRS.find(p=>p.id===state.pair)||PAIRS[0];
+const hoiOf=p=>HOI[p.h], cuoiOf=p=>CUOI[p.c];
+
+function hsh(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return (h>>>0).toString(36)}
+const tid=k=>'t'+hsh(k.t);
+const nf=n=>(Math.round(n*100)/100).toLocaleString('vi-VN');
+const rng=(a,b)=>a===b?nf(a)+' tr':nf(a)+'–'+nf(b)+' tr';
+const n1=n=>(Math.round(n*10)/10).toLocaleString('vi-VN');
+const rng1=(a,b)=>a===b?n1(a)+' tr':n1(a)+'–'+n1(b)+' tr';
+const cnum=n=>n>=10?Math.round(n).toLocaleString('vi-VN'):nf(n);
+const crng=(a,b)=>a===b?cnum(a)+' tr':cnum(a)+'–'+cnum(b)+' tr';
+const MAM={tiecCR:{n:'tablesCR',lo:'priceLo',hi:'priceHi'},tiecCD:{n:'tablesCD',lo:'priceLo',hi:'priceHi'},
+  hoiCR:{n:'hoiCR',lo:'priceLo',hi:'priceHi'},hoiCD:{n:'hoiCD',lo:'priceLo',hi:'priceHi'},
+  dnCD:{n:'dnCD',lo:'dnPrice',hi:'dnPrice'}};
+const banquet=key=>{const m=MAM[key],t=Math.max(0,+state[m.n]||0);return [t*(+state[m.lo]||0),t*(+state[m.hi]||0)]};
+const costOf=k=>MAM[k.c]?banquet(k.c):(k.c||null);
+const onSide=()=>state.side==='CD'||state.side==='CR';
+const halfNow=k=>onSide()&&(k.p||'CC')==='CC';
+const amt=k=>{const c=costOf(k);if(!c)return null;if(!onSide())return c;const q=k.p||'CC';
+  if(q===state.side)return c; if(q==='CC')return [c[0]/2,c[1]/2]; return null};
+
+/* ---------- các bước ---------- */
+const REF=[
+ {g:"ĂN HỎI  (9/12)",n:"Áo dài ăn hỏi CD",d:"01 áo dài thuê/ may thuê",p:"CD",mn:5.0,mx:10.0,dk:5.0},
+ {g:"ĂN HỎI  (9/12)",n:"Áo dài ăn hỏi CR",d:"01 áo dài thuê/ may thuê",p:"CR",mn:5.0,mx:10.0,dk:4.0},
+ {g:"ĂN HỎI  (9/12)",n:"Phụ kiện CD",d:"Trang sức cho CD",p:"CD",mn:3.0,mx:3.0,dk:1.0},
+ {g:"ĂN HỎI  (9/12)",n:"Phụ kiện CR",d:"Giày, phụ kiện cho CR",p:"CR",mn:3.0,mx:3.0,dk:1.0},
+ {g:"ĂN HỎI  (9/12)",n:"Make up CD",d:"Makeup & làm tóc cô dâu",p:"CD",mn:3.5,mx:5.0,dk:3.0},
+ {g:"ĂN HỎI  (9/12)",n:"Make up mẹ CD",d:"Makeup & làm tóc cho mẹ CD",p:"CD",mn:3.0,mx:5.0,dk:2.0},
+ {g:"ĂN HỎI  (9/12)",n:"Make up mẹ CR",d:"Makeup & làm tóc cho mẹ CR",p:"CR",mn:3.0,mx:5.0,dk:0.0},
+ {g:"ĂN HỎI  (9/12)",n:"Decor tư gia nhà gái",d:"Decor phông, cổng thiết kế, biển wc, rạp 28m2, 6 bộ bàn crossback, trụ gỗ, hoa lá lụa, thảm ghi, 2 đèn hắt",p:"CD",mn:15.0,mx:30.0,dk:15.0},
+ {g:"ĂN HỎI  (9/12)",n:"Tráp ăn hỏi",d:"Dự toán cho số lượng 7 tráp",p:"CR",mn:15.0,mx:20.0,dk:15.0},
+ {g:"ĂN HỎI  (9/12)",n:"Đội bê tráp",d:"Dự toán cho số lượng 7 tráp, theo số lượng tráp",p:"CR",mn:3.5,mx:3.5,dk:3.5},
+ {g:"ĂN HỎI  (9/12)",n:"Cỗ ăn hỏi",d:"Dự kiến 2tr/mâm x 5 mâm (nhà gái)",p:"CD",mn:6.0,mx:15.0,dk:10.0},
+ {g:"ĂN HỎI  (9/12)",n:"Nail",d:"Làm nail CD cho cả ăn hỏi, cưới",p:"CD",mn:0.35,mx:0.5,dk:0.5},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Decor tư gia nhà gái",d:"Decor tư gia phông, cổng, rạp 28m2, 8 bộ bàn chiavari, hoa lá lụa, 2 đèn hắt (tặng 2 bộ bàn ghế)",p:"CD",mn:15.0,mx:30.0,dk:15.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Decor tư gia nhà trai",d:"Decor tư gia phông, cổng, rạp 20m2, 5 bộ bàn chiavari, hoa lá lụa, 2 đèn hắt",p:"CR",mn:15.0,mx:30.0,dk:15.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Mâm cỗ tiệc hội trường",d:"- 300 khách x Bàn 10 người => 30 mâm / - Kèm đồ uống và thuế VAT, phí phục vụ / => Chi phí mâm: 6TR5/ bàn",p:"CDCR",mn:200.0,mx:280.0,dk:195.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Decor Hội trường",d:"Decor đường dẫn, sân khấu",p:"CDCR",mn:15.0,mx:50.0,dk:20.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Váy cưới CD",d:"May/ thuê váy cưới làm lễ + đi bàn tiệc  / (02 váy/ váy 2in1)",p:"CD",mn:8.0,mx:25.0,dk:15.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Vest CR",d:"Vest cho đám cưới chính",p:"CR",mn:10.0,mx:20.0,dk:10.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Phụ kiện CD",d:"Giày cưới & trang sức cho CD",p:"CD",mn:3.0,mx:3.0,dk:1.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Phụ kiện CR",d:"Giày, áo, quần, cavat,... cho CR",p:"CD",mn:3.0,mx:3.0,dk:1.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Nhẫn cưới",d:"Nhẫn cưới",p:"CD",mn:15.0,mx:100.0,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Makeup CD",d:"Makeup & làm tóc cô dâu cưới",p:"CR",mn:3.5,mx:5.0,dk:8.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Make up mẹ CD",d:"Makeup & làm tóc cho mẹ CD",p:"CDCR",mn:3.0,mx:5.0,dk:5.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Make up mẹ CR",d:"Makeup & làm tóc cho mẹ CR",p:"CD",mn:3.0,mx:5.0,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Chụp Pre-wedding",d:"Chụp Harmony (2 concept stu + ngoại cảnh) / Chụp Triệu Cường (1 concept váy hoàng gia) / Tiền xe cộ đi lại / Tiền tóc kẹp",p:"CD",mn:30.0,mx:30.0,dk:20.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Nail",d:"Làm nail CD cho cả ăn hỏi, cưới",p:"CR",mn:0.35,mx:0.5,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Phụ kiện chụp",d:"Mua phụ kiện chụp pre- wedding",p:"CDCR",mn:null,mx:null,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Váy đón dâu",d:"Thuê váy đón dâu",p:"CD",mn:null,mx:null,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Váy team phù dâu",d:"Thuê váy tean phù dâu",p:"CDCR",mn:null,mx:null,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Quay chụp phóng sự",d:"Quay chụp lễ ăn hỏi, lễ cưới",p:"CDCR",mn:15.0,mx:20.0,dk:24.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Thiệp cưới",d:"300 thiệp, 5k/ thiệp (dự kiến in 310)",p:"CDCR",mn:3.0,mx:6.0,dk:1.55},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Tiết mục biểu diễn",d:"Thuê ban nhạc / Biểu diễn văn nghệ  / Thuê thêm giờ...",p:"CDCR",mn:1.0,mx:5.0,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Xe hoa đón dâu",d:"Xe hoa chú rể và cô dâu (xe dòng cơ bản)",p:"CR",mn:3.0,mx:3.0,dk:0.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Xe chở họ hàng",d:"Dự kiến 2 xe 29 chỗ (1tr5/ xe 29 chỗ) hoặc 1 xe 45 chỗ",p:"CDCR",mn:3.0,mx:4.0,dk:3.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Hoa cầm tay, decor xe",d:"Trang trí xe hoa đón dâu và hoa cầm tay",p:"CR",mn:3.0,mx:3.0,dk:3.0},
+ {g:"ĐÓN DÂU &  TIỆC CƯỚI   (21/12)",n:"Quà tặng khách mời",d:"Quà tặng nhỏ cho khách (khoảng 10k-20k / quà)",p:"CDCR",mn:3.0,mx:6.0,dk:5.0},
+ {g:"KHÁC",n:"Nhẫn cầu hôn",d:"Nhẫn cầu hôn",p:"CR",mn:3.0,mx:"vô cùng :*",dk:7.0},
+ {g:"KHÁC",n:"Tráp đen (thách cưới)",d:"Tráp đen (thách cưới) của nhà trai",p:"CR",mn:null,mx:30.0,dk:0.0},
+ {g:"KHÁC",n:"Giường, tủ,... nhà trai",d:"Sắm giường, tủ,... nhà trai",p:"CR",mn:null,mx:null,dk:0.0},
+ {g:"KHÁC",n:"Tiền mâm lỗ",d:"Thanh toán tiền mâm lỗ (1tr5/ mâm x 30 mâm)",p:"CDCR",mn:30.0,mx:60.0,dk:45.0},
+ {g:"KHÁC",n:"Tráp dạm ngõ",d:"Tráp dạm ngõ",p:"CR",mn:0.5,mx:2.0,dk:0.0},
+ {g:"KHÁC",n:"Bánh kẹo, hoa quả mời khách (nhà trai)",d:"Chuẩn bị bánh, hoa quả cho hôm cưới",p:"CR",mn:0.2,mx:0.5,dk:0.0},
+ {g:"KHÁC",n:"Bánh kẹo, hoa quả mời khách (nhà gái)",d:"Chuẩn bị bánh, hoa quả cho dạm ngõ, ăn hỏi, cưới",p:"CD",mn:0.5,mx:0.8,dk:0.6},
+ {g:"KHÁC",n:"Khám, tiêm tiền hôn nhân",d:"Khám, tiêm tiền hôn nhân",p:"CDCR",mn:4.0,mx:7.0,dk:5.0}
+];
+const REFTOT={mn:420.2,mx:743.5,dk:459.15,chung:123.55,cd:142.875,cr:121.275,khongmam:264.15,comkhac:321.75};
+
+function buildPhases(){
+ const P=getPair(), H=hoiOf(P).d, C=cuoiOf(P).d;
+ return [
+ {i:'💍',sh:'Mua nhẫn',t:'Mua nhẫn cưới',s:D(2026,12,6),e:D(2026,12,6),
+  note:'Gói gọn trong ngày Chủ nhật 6/12. Đo ni và chốt mẫu tại chỗ, nhẫn khắc tên thì hẹn lấy sau 1–2 tuần, kịp trước buổi chụp ảnh 20/12.',
+  g:[{t:'Chọn và đặt nhẫn',i:'💍',k:[
+      {t:'Xem trước mẫu trên web của 2–3 tiệm',w:'?',d:'Làm từ tối hôm trước để hôm sau đi thẳng vào việc.'},
+      {t:'Đo ni tay cả hai người',lu:'Đo vào buổi chiều lúc tay không lạnh. Nhẫn sai cỡ là lỗi rất hay gặp, mà sửa cỡ sát ngày thì tiệm hay từ chối.',w:'CC',d:'Đo vào buổi chiều, lúc tay không lạnh, để không bị chật.'},
+      {t:'Chốt kiểu và chất liệu',w:'CC',lu:'Hai bạn cùng đi chọn mẫu, nhưng tiền thì chú rể trả. Theo lệ thông thường, việc chọn nhẫn là của hai người, còn việc trả tiền nên là chú rể, coi như thể hiện sự tôn trọng với nhà gái.',d:'Vàng ta, vàng tây hay vàng trắng; có đính đá hay không.'},
+      {t:'Nhẫn cưới',w:'CR',p:'CR',lu:'Ở miền Bắc và miền Trung, nhà trai thường lo nhẫn cưới như một phần sính lễ. Có nhà làm cách khác cho cân: nhà trai mua nhẫn, nhà gái tặng lại vàng cưới. Dù hai bạn tự góp tiền thì vẫn nên để chú rể đứng ra trả cho đúng lệ.',d:'Mức bạn chốt. Khảo sát thị trường cũng cho con số quanh 12 tr một đôi vàng tây trơn.',c:[10,15],dk:0},
+      {t:'Hẹn ngày lấy nhẫn',w:'CR',d:'Hẹn trước 19/12 để kịp đeo vào ảnh cưới.'}]}]},
+
+ {i:'📷',sh:'Chọn studio',t:'Chọn bên chụp ảnh',s:D(2026,12,7),e:D(2026,12,19),
+  note:'Chỉ có 13 ngày để chốt studio rồi chụp ngay 20/12, nên nhắn hỏi 3–4 nơi cùng lúc ngay hôm đầu, đừng hỏi lần lượt.',
+  g:[{t:'Tìm và chốt studio',i:'🔍',k:[
+      {t:'Nhắn hỏi 3–4 studio cùng lúc, hỏi luôn lịch trống ngày 20/12',w:'CD',lu:'Để cô dâu chủ trì phần này vì phần lớn quyết định xoay quanh concept, váy và góc chụp.',d:'Hỏi trước việc còn lịch hay không, rồi mới bàn giá.'},
+      {t:'Xem album thật đã giao cho khách',w:'CD',d:'Không chỉ xem ảnh quảng cáo trên trang chủ.'},
+      {t:'So gói chụp và các khoản phát sinh',w:'?',d:'Giá gốc, phí thêm ảnh, phí thêm bộ đồ, phí đi xa.'},
+      {t:'Hỏi rõ điều khoản',w:'CD',d:'Số ảnh chỉnh sửa, số bộ đồ, có trang điểm kèm không, lịch trả album, phí hủy.'},
+      {t:'Hỏi luôn gói quay chụp phóng sự ngày cưới',w:'?',d:'Đặt chung một chỗ thường rẻ hơn tách hai nơi.'},
+      {t:'Chốt concept và địa điểm chụp',w:'CD',d:'Phim trường, ngoại cảnh hay studio trong nhà.'},
+      {t:'Gói chụp ảnh cưới',w:'CD',p:'CD',lu:'Bạn chọn để nhà gái trả khoản này, đổi lại nhà trai lo nhẫn. Cách chia này hợp lệ: khảo sát cho thấy chụp ảnh, quay phim và thiệp cưới ngày nay thường do chính cặp đôi chủ động chi trả hoặc do hai gia đình thống nhất, chứ không có lệ cứng.',d:'Mức bạn chốt. Ký hợp đồng và cọc khoảng 30% ngay trong bước này.',c:[10,15],dk:20}]},
+    {t:'Sức khỏe',i:'🩺',k:[
+      {t:'Khám và tiêm tiền hôn nhân',w:'CC',p:'CC',lu:'Mỗi người tự khám phần của mình, tiền thì chia đôi. Nhớ bắt đầu sớm vì mũi HPV phải tiêm ba đợt cách nhau nhiều tháng.',d:'Bắt đầu ngay: mũi HPV phải tiêm 3 đợt cách nhau nhiều tháng, bảng gốc rải từ tháng 6 đến tháng 12.',c:[4,4.5],dk:5},
+      {t:'Dưỡng da, chăm tóc',w:'CD',d:'Làm đều từ giờ đến ngày cưới, không dồn vào tuần chót.'}]}]},
+
+ {i:'📸',sh:'Ảnh cưới',t:'Chụp ảnh cưới',s:D(2026,12,20),e:D(2026,12,25),
+  note:'Chụp trong khoảng 20–25/12. Chọn ảnh ngay sau buổi chụp, vì studio cần 3–4 tuần để trả album và sẽ nghỉ Tết từ đầu tháng 2.',
+  g:[{t:'Buổi chụp',i:'📸',k:[
+      {t:'Chuẩn bị da, tóc, móng trước buổi chụp',w:'CD',d:'Làm trước 2–3 ngày, đừng làm sát ngày.'},
+      {t:'Phát sinh ngày chụp',w:'CD',p:'CD',d:'Trang điểm, đi lại, phụ kiện, nail, thuê thêm đồ. Mức bạn chốt.',c:[2,5]},
+      {t:'Chọn ảnh ngay sau buổi chụp',w:'CC',d:'Chọn sớm thì studio còn kịp sửa và in trước Tết.'},
+      {t:'Duyệt album và đặt in ảnh cổng',w:'?',d:'Chốt trước 20/1 để chắc chắn có ảnh trước Tết.'}]}]},
+
+ {i:'🍵',sh:'Dạm ngõ',t:'Lễ dạm ngõ',s:D(2027,1,16),e:D(2027,1,16),key:1,
+  note:'Buổi gặp chính thức đầu tiên của hai gia đình. Mọi con số cho ăn hỏi và cưới nên được chốt trong buổi này.',
+  alts:[{d:D(2027,1,16),cc:'Ất Mùi',why:'Đang chọn, mùng 9 tháng Chạp. Mùi tam hợp Mão, hợp tuổi cô dâu. Thứ Bảy. Sạch nhất trong ba lựa chọn.',cur:1},
+        {d:D(2027,1,17),cc:'Bính Thân',why:'Mùng 10 tháng Chạp như dự tính ban đầu, nhưng Thân xung Dần, tức xung tuổi chú rể.'},
+        {d:D(2027,1,31),cc:'Canh Tuất',why:'Tam hợp tuổi chú rể và lục hợp tuổi cô dâu, Chủ nhật, tự nó đã đủ điểm làm ngày cưới. Điểm trừ: 24 tháng Chạp, khá sát Tết.'}],
+  g:[{t:'Chuẩn bị trước',i:'🧺',k:[
+      {t:'Hẹn giờ và thống nhất người đi',w:'CC',d:'Nhà trai thường đi 5–7 người: bố mẹ, chú rể, một vài người thân.'},
+      {t:'Nhà trai sắm tráp dạm ngõ',w:'CR',p:'CR',lu:'Lễ vật ngày dạm ngõ theo lệ là việc của nhà trai: trầu cau, chè, bánh kẹo, hoa quả, rượu. Lễ vật bên trong luôn chuẩn bị theo đôi, số lượng chẵn. Nhà gái không phải lo khoản này.',d:'Trầu cau, chè, bánh kẹo, hoa quả, rượu. Số lượng chẵn.',c:[2,2],dk:0},
+      {t:'Nhà gái làm cỗ và trà nước tiếp nhà trai',w:'CD',p:'CD',lu:'Đối ứng với tráp của nhà trai: nhà gái lo trà nước, bánh trái và bữa cơm thân mật tiếp đoàn nhà trai. Đây là phần của nhà gái, nhà trai không góp tiền.',d:'Dự kiến 5 mâm tại nhà gái, 1,3 triệu một mâm. Sửa số mâm và giá ở ô phía trên.',c:'dnCD',dk:0.6,pic:'CD'}]},
+    {t:'Trong ngày',i:'🍵',k:[
+      {t:'Nhà trai sang thưa chuyện, đặt lễ lên bàn thờ gia tiên',w:'CR',d:''},
+      {t:'Chốt ngày ăn hỏi và ngày cưới với hai bên bố mẹ',w:'CC',d:'Mang theo bảng cặp ngày trong mục Ăn hỏi để cả nhà cùng xem.'},
+      {t:'Chốt số tráp, lễ nạp tài, số khách mỗi bên',w:'CC',lu:'Đây là cuộc nói chuyện quan trọng nhất của buổi dạm ngõ. Cần chốt rõ năm điều: bao nhiêu tráp, tiền nạp tài bao nhiêu, mỗi nhà mời bao nhiêu khách, tiệc làm ở đâu, và khoản nào nhà nào trả. Ghi lại ngay tại chỗ rồi gửi cho cả hai nhà, đừng để nhớ miệng. Theo lệ miền Bắc, chính nhà gái là bên nêu yêu cầu về lễ vật ăn hỏi: bao nhiêu mâm quả, gồm những gì, và tiền thách cưới nếu có. Nhà trai nghe rồi thưa lại, đừng để nhà trai tự đoán.',d:''},
+      {t:'Ghi lại các điều đã thống nhất và gửi cho cả hai nhà',w:'?',d:'Tránh hiểu khác nhau khi cận ngày.'}]}]},
+
+ {i:'📝',sh:'Đặt dịch vụ',t:'Đặt dịch vụ trước Tết',s:D(2027,1,17),e:D(2027,2,5),
+  note:'Hai mươi ngày ngay sau lễ dạm ngõ, chốt gọn toàn bộ dịch vụ trước khi các bên nghỉ Tết. Ngày cưới vừa được hai nhà thống nhất hôm 16/1 nên giờ mới đặt cọc được.',
+  g:[{t:'Tráp và lễ ăn hỏi',i:'🎁',k:[
+      {t:'Đặt tráp ăn hỏi',w:'CR',p:'CR',lu:'Miền Bắc nhà trai thường chuẩn bị trọn bộ 7 đến 11 tráp. Số tráp phải khớp con số đã chốt hôm dạm ngõ, không tự ý đổi.',d:'Khảo sát Hà Nội: 7 tráp phổ biến 3,5–6 tr, loại rồng phượng 7,5–9,5 tr. Bảng gốc để 15 tr là mức cao.',c:[5,6],dk:15,pic:'CR'},
+      {t:'Nhà trai lo đội nam bê tráp',w:'CR',p:'CR',lu:'Số người bê tráp bằng số tráp, miền Bắc thường là số lẻ 5, 7 hay 9. Nhà trai lo đội nam. Dặn trước là ăn mặc chỉn chu và có mặt sớm.',d:'Bằng số tráp đã chốt.',c:[1.5,1.8],dk:3.5,pic:'CR'},
+      {t:'Nhà gái lo đội nữ đỡ tráp',w:'CD',p:'CD',lu:'Đối ứng với đội nam của nhà trai: số nữ đỡ tráp bằng số nam bê tráp. Cô dâu phải nhắc bạn bè từ sớm vì gần ngày rất khó gọi đủ người.',d:'Bằng số nam bê tráp.',c:[1.5,1.7]}]},
+    {t:'Trang trí',i:'🎀',k:[
+      {t:'Trang trí gia tiên nhà gái, cả hai lễ',w:'CD',p:'CD',lu:'Nhà nào trang trí nhà nấy. Nhà gái tốn hơn vì phải trang trí cho cả lễ ăn hỏi lẫn lễ vu quy, còn nhà trai chỉ một lần. Mẹo tiết kiệm: đặt chung một bên cho cả hai nhà và cả hai lễ, rồi mỗi nhà trả phần của mình.',d:'Phông, cổng, rạp, bàn ghế, hoa lá lụa, đèn hắt. Dùng cho cả ngày ăn hỏi và ngày đón dâu.',c:[9,9.8],dk:45,pic:'CD'},
+      {t:'Trang trí gia tiên nhà trai',w:'CR',p:'CR',lu:'Phần của nhà trai, chỉ trang trí cho ngày đón dâu nên nhẹ hơn nhà gái.',d:'Phông, cổng, rạp, bàn ghế, hoa lá lụa, đèn hắt cho ngày đón dâu.',c:[6,6.6],dk:15,pic:'CR'},
+      {t:'Hoa cầm tay và trang trí xe hoa',w:'CR',p:'CR',lu:'Hoa cưới cầm tay và hoa cài áo cho bố mẹ, người chủ hôn hai họ theo lệ là phần nhà trai.',d:'',c:[2,2.4],dk:3,pic:'CR'}]},
+    {t:'Trang phục',i:'👗',k:[
+      {t:'Thuê váy cưới cô dâu',w:'CD',p:'CD',lu:'Trang phục và trang điểm cô dâu theo lệ là phần của nhà gái và cô dâu.',d:'Một váy làm lễ và một váy đi bàn. Khảo sát: gói cơ bản thuê 1,5–5 tr, gói thiết kế 5–15 tr, có nơi gộp váy đi bàn kèm vest chú rể từ 5 tr.',c:[4,6],dk:15,pic:'CD'},
+      {t:'Thuê vest chú rể',w:'CR',p:'CR',d:'Khảo sát: thuê 0,7–3 tr một bộ gồm áo, quần, cà vạt. May mới thì 3–15 tr.',c:[1.5,2.5],dk:10,pic:'CR'},
+      {t:'Thử đồ lần đầu và chốt sửa',w:'CC',d:'Thử sớm để còn kịp sửa trước Tết.'}]},
+    {t:'Quay chụp và làm đẹp',i:'🎥',k:[
+      {t:'Quay chụp phóng sự cưới',w:'?',p:'CC',lu:'Tiền khoản này hai nhà cùng góp, không tính riêng bên nào. Vì nhà gái đã trả tiền ảnh cưới rồi, nếu muốn cân thì để nhà trai gánh phần phóng sự này.',d:'Gồm cả ngày ăn hỏi và ngày cưới.',c:[10,11],dk:24,pic:'CDCR'},
+      {t:'Trang điểm cô dâu và mẹ cô dâu, cả hai lễ',w:'CD',p:'CD',lu:'Trang điểm và làm tóc cô dâu là phần của nhà gái, theo lệ chung. Đặt giữ lịch từ bây giờ, buổi make test hẹn vào đầu tháng 3.',d:'Cho cả lễ ăn hỏi và lễ cưới.',c:[5,5.7],dk:16,pic:'CD'},
+      {t:'Trang điểm mẹ chú rể, cả hai lễ',w:'CR',p:'CR',lu:'Phần của nhà trai. Khi đặt lịch nhớ dặn thợ tách hoá đơn riêng cho hai nhà, đừng gộp một phiếu rồi cãi nhau lúc thanh toán.',d:'Cho cả lễ ăn hỏi và lễ cưới.',c:[2,2.3],dk:5,pic:'CR'}]},
+    {t:'Tiệc, xe, thiệp, quà',i:'📜',k:[
+      {t:'Chốt chỗ đặt cỗ và thực đơn',lu:'Chốt số khách trước rồi mới chốt chỗ, đừng làm ngược. Nhiều đôi chỉ để ý phông bạt đẹp mà quên đo xem chỗ đó có đủ cho số mâm của mình không.',w:'CC',d:'Nhà hàng hay cỗ nhà đều phải chốt số mâm và món trong đợt này.'},
+      {t:'Đăng ký kết hôn',w:'CC',d:'Hỏi trước UBND xã, phường về giấy tờ cần mang. Lệ phí thường được miễn.'},
+      {t:'Xe hoa đón dâu, trọn ngày đi tỉnh',w:'CR',p:'CR',lu:'Xe đón dâu theo lệ là việc của nhà trai.',d:'Khảo sát Hà Nội: gói trọn ngày đi tỉnh, xe phổ thông 1,2–1,8 tr, xe trung cấp như Camry hay VinFast 2–2,8 tr, xe sang 3–4 tr.',c:[2,2.8],dk:3,pic:'CR'},
+      {t:'Xe chở họ hàng Hà Nội – Nam Định, 2 xe 29 chỗ',w:'?',p:'CC',lu:'Chặng Hà Nội – Nam Định khoảng 85–90 km. Tiền xe không tính riêng bên nào: nhà nào có họ hàng đi xe nào thì trả phần xe đó, nếu đi chung một xe thì chia đôi.',d:'Chặng 85–90 km. Khảo sát: 2,2–2,8 tr một xe đi về trong ngày, có nơi báo 3–3,5 tr. Chưa gồm VAT và phí cao tốc khoảng 100 nghìn một lượt.',c:[5,6],dk:3,pic:'CDCR'},
+      {t:'Tiết mục văn nghệ',w:'?',d:'Nhờ bạn bè đăng ký tiết mục thay vì thuê ban nhạc. Bảng gốc cũng để 0.'}]},
+    {t:'Trăng mật',i:'🛫',k:[
+      {t:'Chọn điểm đến và chốt lịch',w:'CC',d:'Đi trong nước cho gọn ngân sách. Nếu ra nước ngoài thì hộ chiếu và visa phải làm ngay từ bây giờ.'},
+      {t:'Đặt vé và phòng cho tuần trăng mật',w:'?',d:'Đặt sớm 2–3 tháng rẻ hơn nhiều. Tiền nằm ở bước Tuần trăng mật.'},
+      {t:'Xin nghỉ phép ở cơ quan cả hai bạn',w:'CC',d:''}]}]},
+ {i:'🧧',sh:'Tết',t:'Tết Đinh Mùi',s:D(2027,2,6),e:D(2027,2,14),tet:1,
+  note:'Mùng 1 Tết rơi vào Thứ Bảy 6/2/2027. Dịch vụ nghỉ hết, đây là dịp báo tin vui trực tiếp với họ hàng và rà lại danh sách khách.',
+  g:[{t:'Trong dịp Tết',i:'🌸',k:[
+      {t:'Quà Tết cho hai bên nội ngoại',w:'CC',p:'CC',d:'Không có trong bảng gốc, đây là ước tính của tôi.',c:[3,3.6],off:1},
+      {t:'Mừng tuổi bố mẹ và ông bà hai bên',w:'CC',p:'CC',lu:'Mừng tuổi cho cả bố mẹ lẫn ông bà hai bên, chia đều hai bên để không nhà nào tủi.',d:'Khoản bạn chốt.',c:[3,3],off:1},
+      {t:'Báo ngày cưới với ông bà, cô bác lớn tuổi',w:'CC',d:'Mời miệng trước, thiệp gửi sau.'},
+      {t:'Chốt danh sách khách mời với bố mẹ hai bên',w:'CC',lu:'Mỗi nhà tự chốt danh sách của nhà mình rồi cộng lại. Con số này quyết định số mâm, số thiệp và số quà, nên sai một chút là lệch tiền rất nhiều.',d:'Mỗi nhà tự chốt danh sách của nhà mình rồi cộng lại. Mặc định trang đang tính 300 khách, tức 50 mâm 6 người.'},
+      {t:'Chốt ngân sách và phân chia khoản chi',w:'CC',lu:'Dùng nút Cô dâu và Chú rể ở đầu trang để hai nhà cùng ngồi xem phần của mình. Bảng tổng chi phí có sẵn dòng cộng riêng cho từng bên. Hai điều nên tránh: dốc hết tiền tiết kiệm vào đám cưới, và trông vào tiền mừng để hoà vốn. Thực tế rất khó hoà vốn, nên cứ coi tiền mừng là phần bù thêm chứ đừng tính trước vào ngân sách.',d:'Bảng gốc chia: chi phí chung 123,55 tr, riêng cô dâu 142,88 tr, riêng chú rể 121,28 tr, đều chưa tính mâm.'}]}]},
+
+ {i:'💌',sh:'Nước rút',t:'Nước rút',s:D(2027,2,20),e:D(2027,2,28),
+  note:'Chín ngày cuối tháng 2. Lưu ý tháng 2/2027 chỉ có 28 ngày nên không có ngày 30. Sau Tết đã biết chắc số khách, giờ in thiệp, gửi thiệp và chốt số mâm. Vài việc sát ngày lễ thì làm sau mốc này, xem ghi chú từng dòng.',
+  g:[{t:'Thiệp và quà, sau khi chốt khách',i:'💌',k:[
+      {t:'Cô dâu chọn mẫu và đặt in thiệp',w:'CD',p:'CC',lu:'Cô dâu chọn mẫu thiệp, chất liệu, chữ nghĩa và cách xưng hô, rồi đặt in một lần cho cả hai nhà để thiệp đồng bộ. Tên bố mẹ hai bên phải soát thật kỹ trước khi bấm in, sai một chữ là phải in lại cả lô. Nhớ đặt dư khoảng 10% phòng viết hỏng và khách phát sinh. Riêng tiền in thì hai nhà chia theo số thiệp mỗi bên dùng, chứ không phải nhà gái trả hết.',d:'Với 140 mâm cỗ cưới, tức khoảng 840 khách, cần quãng 920 thiệp kể cả in dư 10%. Khảo sát 3–5 nghìn một thiệp.',c:[3,5],dk:1.55,pic:'CDCR'},
+      {t:'Nhà trai viết và gửi thiệp cho khách nhà trai',w:'CR',p:'CR',lu:'Nhà trai tự viết và tự gửi thiệp cho khách của nhà mình, không gộp với nhà gái. Viết đúng tên và cách xưng hô của từng người, khách lớn tuổi thì nên đưa tận tay chứ đừng nhờ chuyển. Gửi quá sớm thì khách quên, gửi sát quá thì khách đã kín lịch và thấy bị xem nhẹ. Khoảng 3 đến 4 tuần trước ngày cưới là vừa, tuyệt đối không dưới 10 ngày. Đánh dấu lại ai đã nhận để không sót và không gửi trùng.',d:'Gửi trong khoảng 28/2 – 7/3 để thiệp đến tay khách trước ngày cưới 3–4 tuần.'},
+      {t:'Nhà gái viết và gửi thiệp cho khách nhà gái',w:'CD',p:'CD',lu:'Nhà gái tự viết và tự gửi thiệp cho khách của nhà mình. Cùng mẫu thiệp với nhà trai nhưng danh sách và việc gửi là riêng. Khách ở xa thì gửi sớm hơn vài ngày, khách ở gần thì đưa tận tay. Khoảng 3 đến 4 tuần trước ngày cưới là vừa, tuyệt đối không dưới 10 ngày. Đánh dấu lại ai đã nhận để không sót và không gửi trùng.',d:'Gửi trong khoảng 28/2 – 7/3 để thiệp đến tay khách trước ngày cưới 3–4 tuần.'},
+      {t:'Đặt quà tặng khách mời',w:'CD',p:'CC',lu:'Cô dâu chọn mẫu quà, còn tiền thì hai nhà chia theo số khách mỗi bên mời. Bảng tổng chi phí có dòng cộng riêng cho từng bên.',d:'Khoảng 13–15 nghìn một phần cho 840 khách dự tiệc cưới. Nếu cần cắt giảm thì đây là khoản khách ít để ý nhất.',c:[11,13],dk:5,pic:'CDCR'}]},
+    {t:'Tiệc và cỗ',i:'🍽️',k:[
+      {t:'Thử món và chốt đồ uống',lu:'Đừng tiếc tiền ở khoản này. Khảo sát cho thấy hai thứ khách nhớ nhất sau đám cưới là đồ ăn và âm nhạc, còn mấy chi tiết trang trí nhỏ thì gần như không ai để ý.',w:'CC',d:''},
+      {t:'Chốt số mâm cuối',w:'CC',d:'Việc này làm muộn hơn mốc trên: báo cho bên nấu cỗ trước ngày cưới 5–7 ngày, tức khoảng 21/3.'},
+      {t:'Xếp sơ đồ bàn theo nhóm khách',w:'CC',d:''},
+      {t:'Mâm cỗ tiệc nhà trai',w:'CR',p:'CR',lu:'Theo lệ phổ biến, phần tiệc cưới mỗi bên tự tổ chức riêng tại quê hoặc nhà hàng gần nhà mình: nhà trai lo tiệc nhà trai, nhà gái lo tiệc nhà gái, và tiền mừng của khách bên nào thì bên đó giữ. Đây là khoản to nhất của cả đám cưới nên phải chốt rõ từ hôm dạm ngõ.',d:'Khách của nhà trai, dự kiến 70 mâm. Sửa số mâm và giá ở ô phía trên.',c:'tiecCR',dk:195,pic:'CR'},
+      {t:'Mâm cỗ tiệc nhà gái',w:'CD',p:'CD',lu:'Tiệc riêng của nhà gái, mời khách của nhà gái. Nếu hai nhà gộp làm một tiệc chung thì đặt số mâm của một bên về 0 rồi cộng hết vào bên kia.',d:'Khách của nhà gái, dự kiến 70 mâm. Sửa số mâm và giá ở ô phía trên.',c:'tiecCD',dk:195,pic:'CD'},
+      {t:'Mâm cỗ ăn hỏi nhà gái',w:'CD',p:'CD',lu:'Cỗ ngày ăn hỏi bày tại nhà gái, mời họ hàng và khách của nhà gái. Khoản này tính riêng, không nằm trong số mâm tiệc cưới. Cỗ ăn hỏi thường ít khách mừng hơn cỗ cưới nên hầu như không thu lại được, phải coi là chi thật.',d:'Dự kiến 30 mâm tại nhà gái. Sửa số mâm và giá ở ô phía trên.',c:'hoiCD',dk:10,pic:'CD'},
+      {t:'Mâm cỗ ăn hỏi nhà trai',w:'CR',p:'CR',lu:'Cỗ nhà trai làm sau khi đoàn rước tráp về, mời họ hàng và đội bê tráp. Nếu nhà trai không làm cỗ hôm ăn hỏi thì đặt số mâm về 0 ở ô phía trên, chi phí sẽ tự về 0.',d:'Dự kiến 30 mâm tại nhà trai. Sửa số mâm và giá ở ô phía trên.',c:'hoiCR',pic:'CR',off:1},
+      {t:'Bánh kẹo, hoa quả mời khách tại nhà gái',w:'CD',p:'CD',d:'Dùng cho cả ngày dạm ngõ, ăn hỏi và ngày vu quy.',c:[1.5,2],dk:0.6,pic:'CD'},
+      {t:'Bánh kẹo, hoa quả mời khách tại nhà trai',w:'CR',p:'CR',d:'Dùng cho ngày đón dâu.',c:[1.2,1.5],pic:'CR',off:1}]},
+    {t:'Nhà cửa và sính lễ',i:'🏠',k:[
+      {t:'Sửa soạn phòng tân hôn',w:'CR',p:'CR',lu:'Phòng tân hôn ở nhà trai nên nhà trai lo. Nhưng cô dâu là người ở đó, nên phải được hỏi ý về chăn ga, màu sơn và cách bày.',d:'Chăn ga gối mới, rèm, đèn, sơn sửa nhỏ. Giữ lại giường tủ sẵn có cho đỡ tốn.',c:[5,5.5],off:1},
+      {t:'Chuẩn bị tiền nạp tài',w:'CR',p:'CR',lu:'Khoảng chênh rất rộng tuỳ từng nhà: có nguồn ghi 10–50 triệu, có nguồn ghi miền Bắc 30–100 triệu, nơi khác chỉ 5–20 triệu. Mức 20–30 ở đây chỉ là tạm tính. Con số cụ thể đã chốt hôm dạm ngõ, đừng để đến sát ngày mới hỏi lại. Miền Bắc nhà trai thường chuẩn bị ba phong bì riêng chứ không phải một, hay gọi là lễ đen. Số tiền theo yêu cầu nhà gái đã nêu hôm dạm ngõ và theo khả năng nhà trai. Hỏi rõ nhà gái muốn ba phong bì hay một.',d:'Theo mức hai nhà đã chốt hôm dạm ngõ. Không có trong bảng gốc.',c:[20,30],off:1},
+      {t:'Thử váy, vest lần cuối',lu:'Váy không vừa và nhẫn sai cỡ là hai lỗi hay gặp nhất, gần như luôn do để sát ngày mới thử. Thử xong còn thời gian sửa thì mới gọi là thử.',w:'CC',d:'Làm đầu tháng 3, sau mốc trên.'}]},
+    {t:'Chốt cho cả hai lễ',i:'📋',k:[
+      {t:'Lập lịch giờ chi tiết cho ngày ăn hỏi và ngày cưới',lu:'Gửi MC một tờ ghi rõ tên cô dâu, chú rể, tên bố mẹ hai bên kèm cách phát âm. Chuyện MC đọc nhầm tên suốt buổi lễ xảy ra nhiều hơn bạn nghĩ. Nếu được thì chạy thử một lượt trước ngày cưới.',w:'CC',d:'Gửi cho studio, trang điểm, xe, MC, trang trí.'},
+      {t:'Phân công người nhà',w:'CC',lu:'Mỗi nhà tự phân công người của nhà mình: đón khách, giữ phong bì, lái xe, lo trẻ nhỏ. Riêng người giữ phong bì phải là người thật tin cậy và phải rõ giữ phong bì của nhà nào. Không cần làm cô dâu siêu nhân. Giao hẳn cho bạn thân một đầu việc trọn gói, ví dụ xác nhận khách và phát thiệp, rồi để họ tự lo. Giữ lại cho mình đúng mấy việc phải tự quyết.',d:'Đón khách, giữ phong bì, đội bê tráp, lái xe, lo trẻ nhỏ.'},
+      {t:'Nhà trai lì xì đội nam bê tráp',w:'CR',p:'CR',lu:'Hai đội trao tráp xong thì trao lì xì cho nhau, nên hai nhà phải chuẩn bị mức tiền bằng nhau, thống nhất trước để không bên nào ngượng.',d:'Thường 100–200 nghìn một người.',c:[0.5,0.6],off:1},
+      {t:'Nhà gái lì xì đội nữ đỡ tráp',w:'CD',p:'CD',lu:'Mức lì xì phải bằng với nhà trai. Hỏi nhau trước khi bỏ phong bì.',d:'Thường 100–200 nghìn một người.',c:[0.5,0.6],off:1},
+      {t:'Chuẩn bị lời phát biểu của đại diện hai họ',w:'CC',lu:'Mỗi nhà tự chuẩn bị bài của đại diện nhà mình. Nhà trai nói trước xin phép, nhà gái đáp lại. Nên viết ra giấy và đưa bác đại diện đọc trước một lần.',d:''},
+      {t:'Dựng rạp, trang trí gia tiên',w:'CC',lu:'Mỗi nhà dựng rạp nhà mình và phải có người của nhà đó ở nhà để chỉ chỗ cho thợ. Nhà gái dựng trước ngày ăn hỏi, nhà trai dựng trước ngày đón dâu. Cưới ở quê dựng rạp ngoài sân thì phải có phương án mưa: hỏi trước bên dựng rạp về bạt che mưa, thoát nước và chỗ kê bàn dự phòng. Cuối tháng 3 miền Bắc hay có mưa phùn.',d:'Làm trước mỗi lễ 1–2 hôm, tức khoảng 14/3 và 26/3, sau mốc trên.'},
+      {t:'Kiểm tra lần cuối xe hoa, hoa cưới, nhẫn, phong bì',w:'?',d:'Làm ngày 26–27/3, sau mốc trên.'}]}]},
+
+ {i:'🎁',sh:'ĂN HỎI',t:'Lễ ăn hỏi, nạp tài',s:H,e:H,key:1,pick:1,
+  note:'Nhà trai mang tráp sang nhà gái, trao lễ nạp tài, cô dâu ra mắt hai họ.',
+  g:[{t:'Trong ngày',i:'🎁',k:[
+      {t:'Nhà trai mang tráp sang nhà gái',w:'CR',d:'Trao tráp, trình lễ, thắp hương gia tiên.'},
+      {t:'Trao lễ nạp tài, cô dâu ra mắt hai họ',w:'CC',d:''},
+      {t:'Nhà gái lại quả và mời cỗ',w:'CD',lu:'Nhà gái chia lại một phần lễ trong tráp để nhà trai mang về thắp hương. Nhớ chuẩn bị sẵn túi hoặc hộp đựng lại quả. Lại quả phải chia theo số chẵn, và theo lệ thì không dùng dao kéo để cắt lễ, chỉ xé hoặc bẻ bằng tay. Tráp khi trả lại phải để ngửa nắp, không đậy kín.',d:''},
+      {t:'Chụp ảnh phóng sự lễ hỏi',w:'?',d:''},
+      {t:'Phát sinh trong ngày ăn hỏi',w:'CC',p:'CC',d:'Khoản dự phòng riêng cho ngày này: thuê thêm bàn ghế, bù tiền cỗ, lì xì, đi lại, mua bù đồ thiếu.',c:[10,15],off:1}]}]},
+
+ {i:'💒',sh:'ĐÁM CƯỚI',t:'Lễ cưới, rước dâu',s:C,e:C,key:1,pick:1,
+  note:'Rước dâu theo giờ đã chọn, lễ gia tiên nhà trai, rồi tiệc cưới.',
+  g:[{t:'Trong ngày',i:'💒',k:[
+      {t:'Nhà trai sang xin dâu và rước dâu theo giờ đã chọn',lu:'Miền Bắc giữ lệ đi hơn về kém: lúc đoàn nhà trai xuất phát phải vào giờ hơn, tức phút còn dưới 30; lúc cô dâu bước chân từ nhà gái về phải vào giờ kém, tức phút đã qua 30. Nhớ tính cả quãng đường Hà Nội – Nam Định khi đặt giờ xuất phát.',w:'CR',d:''},
+      {t:'Lễ gia tiên tại nhà trai, trao nhẫn',w:'CR',d:''},
+      {t:'Tiệc cưới, chào bàn, chụp ảnh với khách',w:'CC',d:''},
+      {t:'Thanh toán nhà hàng, thu gom quà và phong bì',w:'CC',lu:'Phân công rõ ai giữ phong bì của nhà nào. Theo lệ phổ biến, tiền mừng của khách bên nào thì bên đó giữ để bù tiền mâm của bên mình. Đừng trông vào tiền mừng để trả tiền mâm ngay trong ngày: nhiều khách báo đi rồi không đến, mà mâm vẫn phải trả đủ. Chuẩn bị sẵn tiền mặt đủ thanh toán, tiền mừng tính sau.',d:'Giao cho một người thân đã phân công.'},
+      {t:'Phát sinh trong ngày cưới',w:'CC',p:'CC',d:'Khoản dự phòng riêng cho ngày này: bàn phát sinh, đồ uống vượt mức, thuê thêm giờ, xe bổ sung, bù tiền mâm.',c:[20,30],off:1}]}]},
+
+ {i:'🏡',sh:'Sau cưới',t:'Sau cưới và tuần trăng mật',s:addD(C,1),e:addD(C,14),
+  note:'Lại mặt và quyết toán trong tuần đầu, rồi đi trăng mật từ khoảng ngày thứ bảy sau cưới.',
+  g:[{t:'Khép lại',i:'💝',k:[
+      {t:'Lễ lại mặt và phát sinh sau cưới',w:'CR',p:'CR',lu:'Nhà trai sắm lễ đưa cô dâu về lại mặt nhà gái, thường sau cưới 1 đến 3 ngày.',d:'Lễ lại mặt nhà gái thường sau cưới 1–3 ngày, cộng các khoản lặt vặt còn lại.',c:[3,5],off:1},
+      {t:'Thanh toán nốt các dịch vụ và quyết toán thực chi',w:'?',d:'Bảng gốc có cột thực tế để đối chiếu với dự kiến, nên làm theo.'},
+      {t:'Gửi lời cảm ơn họ hàng, bạn bè, đội bê tráp',w:'CC',d:''},
+      {t:'Nhận ảnh và phim phóng sự cưới',w:'?',d:''}]},
+    {t:'Tuần trăng mật',i:'✈️',k:[
+      {t:'Xác nhận lại vé và phòng trước 1 ngày',w:'?',d:''},
+      {t:'Soạn hành lý và giấy tờ',w:'CC',d:'Giấy đăng ký kết hôn nên mang theo bản sao.'},
+      {t:'Nhờ người trông nhà, cây cối, thú nuôi',w:'?',d:''},
+      {t:'Trọn gói tuần trăng mật',w:'CC',p:'CC',d:'Vé, phòng, ăn uống, đi lại, vé tham quan và quà cho hai bên gia đình. Trong nước thì sát mức dưới, đi nước ngoài thì sát mức trên.',c:[10,20],off:1}]}]},
+
+ ];
+}
+let PHASES=buildPhases();
+
+/* ---------- popup ---------- */
+const modal=$('#modal');
+let lastFocus=null;
+function openModal(title,sub,html){
+  lastFocus=document.activeElement;
+  $('#mtitle').innerHTML=title; $('#msub').innerHTML=sub||''; $('#msub').hidden=!sub;
+  $('#mbody').innerHTML=html; modal.hidden=false;
+  $('#mclose').focus();
+}
+function closeModal(){modal.hidden=true;if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+$('#mclose').onclick=closeModal;
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)closeModal()});
+
+const PICN={CD:'Cô dâu',CR:'Chú rể',CDCR:'Cả hai'};
+function costRows(items,max){
+  return items.map(it=>{
+    const c=it.c;
+    const meta=[it.hf?'một nửa khoản chung':'',it.pic?PICN[it.pic]:'',it.dk!=null?'bảng gốc dự kiến '+nf(it.dk)+' tr':'',it.off?'ngoài bảng gốc':''].filter(Boolean).join(' · ');
+    return `<div class="mrow"><span class="mn">${esc(it.t)}</span><span class="mv num">${rng(c[0],c[1])}</span>
+      ${it.d?`<span class="md">${esc(it.d)}</span>`:''}
+      ${meta?`<span class="md" style="font-weight:700">${esc(meta)}</span>`:''}
+      <span class="mbar"><i class="hi" style="width:${c[1]/max*100}%"></i><i class="lo" style="width:${c[0]/max*100}%"></i></span></div>`;
+  }).join('');
+}
+function phaseItems(i){
+  const out=[]; PHASES[i].g.forEach(g=>g.k.forEach(k=>{const c=amt(k);if(c)out.push({t:k.t,d:k.d,c,pic:k.pic,dk:k.dk,off:k.off,hf:halfNow(k)})}));
+  return out;
+}
+const NUMI=(id,lab,mx)=>`<label for="${id}">${lab}<input id="${id}" type="number" min="0" max="${mx}" step="1" inputmode="numeric"></label>`;
+const knobsHTML=()=>{const f=state.side||'all', cr=f!=='CD', cd=f!=='CR';
+  return `<div class="knobs">`
+    +(cr?NUMI('tCR','Mâm cưới nhà trai',400)+NUMI('hCR','Mâm ăn hỏi nhà trai',400):'')
+    +(cd?NUMI('tCD','Mâm cưới nhà gái',400)+NUMI('hCD','Mâm ăn hỏi nhà gái',400):'')
+    +`<label for="priceLo">Giá mâm thấp (triệu)<input id="priceLo" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
+  <label for="priceHi">Giá mâm cao (triệu)<input id="priceHi" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
+  <span class="eq" id="eq"></span></div>`;};
+const KNOBS_DN=`<div class="knobs">
+  <label for="dnN">Số mâm dạm ngõ<input id="dnN" type="number" min="0" max="100" step="1" inputmode="numeric"></label>
+  <label for="dnP">Giá mâm (triệu)<input id="dnP" type="number" min="0.3" max="20" step="0.1" inputmode="decimal"></label>
+  <span class="eq" id="eqdn"></span></div>`;
+function wireDN(){
+  const a=$('#dnN'),b=$('#dnP'); if(!a)return;
+  a.value=state.dnCD;b.value=state.dnPrice;
+  const eq=()=>{const v=banquet('dnCD');$('#eqdn').textContent='Cỗ dạm ngõ nhà gái: '+rng(v[0],v[1])+' · nhà trai không góp tiền khoản này';};
+  eq();
+  [a,b].forEach(el=>el.addEventListener('input',()=>{
+    state.dnCD=parseFloat(a.value)||0;state.dnPrice=parseFloat(b.value)||0;
+    save();eq();
+    const i=+modal.dataset.phase; if(!isNaN(i))$('#mbody').querySelector('.mlist').innerHTML=buildList(i);
+    refresh();
+  }));
+}
+function wireKnobs(){
+  const lo=$('#priceLo'),hi=$('#priceHi'); if(!lo)return;
+  const F=[['tCR','tablesCR'],['tCD','tablesCD'],['hCR','hoiCR'],['hCD','hoiCD']]
+    .map(([id,key])=>({el:$('#'+id),key})).filter(o=>o.el);
+  F.forEach(o=>o.el.value=state[o.key]);
+  lo.value=state.priceLo;hi.value=state.priceHi;
+  const f=state.side||'all';
+  const line=sd=>{const w=banquet('tiec'+sd),h=banquet('hoi'+sd);
+    return (sd==='CR'?'Nhà trai':'Nhà gái')+': cưới '+rng(w[0],w[1])+' + ăn hỏi '+rng(h[0],h[1])+' = '+rng(w[0]+h[0],w[1]+h[1])};
+  const eq=()=>{const parts=[];
+    if(f!=='CD')parts.push(line('CR'));
+    if(f!=='CR')parts.push(line('CD'));
+    parts.push('mâm 6 khách');
+    $('#eq').textContent=parts.join(' · ');};
+  eq();
+  [...F.map(o=>o.el),lo,hi].forEach(el=>el.addEventListener('input',()=>{
+    F.forEach(o=>{state[o.key]=parseFloat(o.el.value)||0});
+    state.priceLo=parseFloat(lo.value)||0;state.priceHi=parseFloat(hi.value)||0;
+    save();eq();
+    const i=+modal.dataset.phase; if(!isNaN(i))$('#mbody').querySelector('.mlist').innerHTML=buildList(i);
+    refresh();
+  }));
+}
+function buildList(i){
+  const items=phaseItems(i); const max=Math.max(...items.map(x=>x.c[1]))||1;
+  const sub=items.reduce((a,x)=>[a[0]+x.c[0],a[1]+x.c[1]],[0,0]);
+  return costRows(items,max)+`<div class="mtot"><b>Cộng bước này</b><span class="v num">${rng(sub[0],sub[1])}</span></div>`;
+}
+function openPhaseCost(i){
+  const p=PHASES[i], items=phaseItems(i);
+  const ks=new Set(); p.g.forEach(g=>g.k.forEach(k=>{if(MAM[k.c])ks.add(k.c)}));
+  const big=ks.has('tiecCR')||ks.has('tiecCD')||ks.has('hoiCR')||ks.has('hoiCD');
+  const dn=!big&&ks.has('dnCD');
+  modal.dataset.phase=i;
+  const sw={all:'',CD:' · chỉ phần của nhà gái',CR:' · chỉ phần của nhà trai'}[state.side||'all'];
+  openModal('💰 Chi phí — '+esc(p.t), items.length+' khoản trong bước này'+sw+', đơn vị triệu đồng',
+    (big?knobsHTML():dn?KNOBS_DN:'')+`<div class="mlist">${buildList(i)}</div>`+
+    '<p class="mnote">Đây là khoảng giá tham khảo theo mặt bằng chung, chưa phải báo giá thật. Sửa lại khi có báo giá của từng bên.</p>');
+  if(big)wireKnobs(); else if(dn)wireDN();
+}
+function openTotal(){
+  delete modal.dataset.phase;
+  let all=[],grand=[0,0];
+  PHASES.forEach((p,i)=>{const it=phaseItems(i);if(it.length){const sub=it.reduce((a,x)=>[a[0]+x.c[0],a[1]+x.c[1]],[0,0]);grand=[grand[0]+sub[0],grand[1]+sub[1]];all.push({i,p,sub,n:it.length})}});
+  const max=Math.max(...all.map(x=>x.sub[1]))||1;
+  const rows=all.map(x=>`<div class="mrow"><span class="mn">${x.p.i} ${esc(x.p.t)}</span><span class="mv num">${rng(x.sub[0],x.sub[1])}</span>
+    <span class="md">${x.n} khoản · ${dm(x.p.s)}${x.p.s.getTime()===x.p.e.getTime()?'':' – '+dm(x.p.e)}</span>
+    <span class="mbar"><i class="hi" style="width:${x.sub[1]/max*100}%"></i><i class="lo" style="width:${x.sub[0]/max*100}%"></i></span></div>`).join('');
+
+  const who={all:'Cộng theo từng bước, cả hai nhà, đơn vị triệu đồng',CD:'Chỉ tính phần của NHÀ GÁI, khoản chung đã chia đôi. Đơn vị triệu đồng',CR:'Chỉ tính phần của NHÀ TRAI, khoản chung đã chia đôi. Đơn vị triệu đồng'}[state.side||'all'];
+  openModal('💰 '+({all:'Tổng chi phí dự kiến',CD:'Chi phí nhà gái',CR:'Chi phí nhà trai'}[state.side||'all']),who,
+    rows+`<h4 style="font-family:var(--display);font-size:16px;margin:18px 0 2px;color:var(--rose)">Chia theo bên</h4>`+
+    (()=>{const B=window.__byPay,h=[B.CC[0]/2,B.CC[1]/2];
+      const tCR=[B.CR[0]+h[0],B.CR[1]+h[1]],tCD=[B.CD[0]+h[0],B.CD[1]+h[1]];
+      return `<div class="mrow"><span class="mn">🤵 Nhà trai lo riêng</span><span class="mv num">${rng(B.CR[0],B.CR[1])}</span><span class="md">Tiệc cưới và cỗ ăn hỏi nhà trai, nhẫn, tráp, nạp tài, xe hoa, hoa cưới, phòng tân hôn, vest, decor nhà trai, lễ lại mặt</span></div>`+
+      `<div class="mrow"><span class="mn">👰 Nhà gái lo riêng</span><span class="mv num">${rng(B.CD[0],B.CD[1])}</span><span class="md">Tiệc cưới và cỗ ăn hỏi nhà gái, ảnh cưới, váy cưới, trang điểm, decor nhà gái, lễ dạm ngõ tại nhà gái</span></div>`+
+      `<div class="mrow"><span class="mn">👫 Khoản chung, mỗi nhà</span><span class="mv num">${rng(h[0],h[1])}</span><span class="md">Tổng khoản chung là ${rng(B.CC[0],B.CC[1])}, ở đây tạm chia đôi. Gồm quay chụp phóng sự, thiệp, quà khách, xe họ hàng, trăng mật, quà Tết và các khoản phát sinh. Tiệc cưới không còn nằm trong nhóm này vì mỗi nhà tự lo tiệc của mình.</span></div>`+
+      `<div class="mrow" style="border-bottom:2px solid var(--line)"><span class="mn">🤵 Tổng nhà trai phải lo</span><span class="mv num">${rng(tCR[0],tCR[1])}</span><span class="md">Phần riêng cộng một nửa khoản chung</span></div>`+
+      `<div class="mrow" style="border-bottom:2px solid var(--line)"><span class="mn">👰 Tổng nhà gái phải lo</span><span class="mv num">${rng(tCD[0],tCD[1])}</span><span class="md">Phần riêng cộng một nửa khoản chung</span></div>`;})()+
+    `<div class="mtot"><b>Tổng cộng</b><span class="v num">${n1(grand[0])} – ${n1(grand[1])} triệu</span></div>`+
+    '<p class="mnote">Cỗ bàn một mình đã là 200 triệu mỗi nhà, theo mức 70 mâm cưới cộng 30 mâm ăn hỏi, 2 triệu một mâm, nhà gái thêm 6,5 triệu cỗ dạm ngõ. Đó là khoảng hai phần ba ngân sách của mỗi bên, tất cả các khoản còn lại cộng lại chỉ hơn 100 triệu. Muốn kéo mỗi nhà về dưới 300 triệu thì phải chỉnh số mâm hoặc giá mâm ở ô phía trên chứ cắt các khoản nhỏ không đủ. Tiền mừng của khách chưa được trừ ở đây, mà với 840 khách dự tiệc cưới thì phần thu lại thường bù được phần lớn tiền cỗ cưới. Không còn dòng dự phòng 10% chung, vì đã có các khoản phát sinh riêng cho ngày chụp, dạm ngõ, ăn hỏi, đám cưới và sau cưới. Bấm vào chip chi phí của từng bước để xem chi tiết.</p>');
+}
+$('#totalBtn').onclick=openTotal;
+const money=v=>v==null?'—':(typeof v==='number'?nf(v)+' tr':v);
+function openRef(){
+  delete modal.dataset.phase;
+  let html='', g=null;
+  REF.forEach(r=>{
+    if(r.g!==g){g=r.g;html+=`<h4 style="font-family:var(--display);font-size:16px;margin:16px 0 2px;color:var(--rose)">${esc(g)}</h4>`}
+    const meta=[r.p?PICN[r.p]||r.p:'',r.dk!=null?'dự kiến '+nf(r.dk)+' tr':''].filter(Boolean).join(' · ');
+    html+=`<div class="mrow"><span class="mn">${esc(r.n)}</span><span class="mv num">${(r.mn!=null&&r.mn===r.mx)?money(r.mn):money(r.mn)+' – '+money(r.mx)}</span>
+      ${r.d?`<span class="md">${esc(r.d)}</span>`:''}
+      ${meta?`<span class="md" style="font-weight:700">${esc(meta)}</span>`:''}</div>`;
+  });
+  html+=`<div class="mtot"><b>Tổng theo bảng gốc</b><span class="v num">${nf(REFTOT.mn)} – ${nf(REFTOT.mx)} triệu</span></div>
+   <div class="mrow"><span class="mn">Cột dự kiến của bảng gốc</span><span class="mv num">${nf(REFTOT.dk)} tr</span></div>
+   <div class="mrow"><span class="mn">Trừ tiền mâm cỗ hội trường</span><span class="mv num">${nf(REFTOT.khongmam)} tr</span><span class="md">Tính cả mục Khác: ${nf(REFTOT.comkhac)} tr</span></div>
+   <div class="mrow"><span class="mn">Chi phí chung hai bên</span><span class="mv num">${nf(REFTOT.chung)} tr</span><span class="md">Riêng cô dâu ${nf(REFTOT.cd)} tr · riêng chú rể ${nf(REFTOT.cr)} tr, đều không tính mâm</span></div>`;
+  openModal('📗 Bảng chi phí gốc từ file Excel','44 đầu mục · đám cưới Hà Nội 300 khách, ngày 21/12/2025 · đơn vị triệu đồng',
+    html+'<p class="mnote">Đây là số của một đám cưới khác, dùng làm mốc so sánh. Bảng lập cuối năm 2025 nên giá hôm nay có thể đã nhích lên, và quy mô, vùng miền của nhà bạn cũng khác.</p>');
+}
+$('#refBtn').onclick=openRef;
+$('#backup').onclick=()=>{
+  delete modal.dataset.phase;
+  const cur=JSON.stringify(pickShared());
+  openModal('💾 Sao lưu và khôi phục','Chép đoạn chữ dưới đây để giữ lại, hoặc dán đoạn đã chép vào rồi bấm Khôi phục',
+    '<p class="mnote" style="margin-top:0">Đoạn này chứa toàn bộ dấu tích, ghi chú, phân công, số mâm và cặp ngày đang chọn. Gửi cho máy khác rồi dán vào đó là chuyển được hết sang máy đó. Khôi phục sẽ ghi đè dữ liệu hiện tại.</p>'
+    +'<textarea id="bkTa" rows="8" style="width:100%;font:600 12px var(--body);padding:10px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)"></textarea>'
+    +'<p style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0"><button class="sbtn" type="button" id="bkCopy">📋 Chép đoạn này</button><button class="sbtn" type="button" id="bkPut">↙ Khôi phục từ đoạn đã dán</button><span class="eq" id="bkMsg"></span></p>');
+  $('#bkTa').value=cur;
+  $('#bkCopy').onclick=async e=>{try{await navigator.clipboard.writeText($('#bkTa').value);e.target.textContent='✅ Đã chép'}catch(err){$('#bkTa').select();e.target.textContent='Bấm Ctrl+C để chép'}};
+  $('#bkPut').onclick=()=>{
+    let d=null; try{d=JSON.parse($('#bkTa').value)}catch(e){}
+    if(!d||typeof d!=='object'){$('#bkMsg').textContent='Đoạn dán vào không đọc được';return}
+    applyRemote(d); save(); $('#bkMsg').textContent='✅ Đã khôi phục';
+  };
+};
+let clrArm=0;
+$('#clearDone').onclick=e=>{
+  if(!clrArm){clrArm=1;e.target.textContent='Bấm lần nữa để xóa';
+    setTimeout(()=>{if(clrArm){clrArm=0;e.target.textContent='↺ Xóa hết dấu tích'}},4000);return}
+  clrArm=0;state.done={};save();
+  $$('#stage input[type="checkbox"]').forEach(c=>{c.checked=false});
+  refresh();
+  e.target.textContent='✅ Đã xóa dấu tích';
+  setTimeout(()=>{e.target.textContent='↺ Xóa hết dấu tích'},2200);
+};
+$('#copyNotes').onclick=async e=>{
+  const out=[];
+  PHASES.forEach(p=>{
+    const lines=[];
+    if(state.pnotes[p.sh])lines.push('• '+state.pnotes[p.sh]);
+    p.g.forEach(g=>g.k.forEach(k=>{const n=state.notes[tid(k)];if(n)lines.push('• '+k.t+': '+n)}));
+    if(lines.length)out.push('## '+p.i+' '+p.t+'\n'+lines.join('\n'));
+  });
+  const txt=out.length?('GHI CHÚ CHUẨN BỊ ĐÁM CƯỚI\n\n'+out.join('\n\n')):'Chưa có ghi chú nào.';
+  try{await navigator.clipboard.writeText(txt);e.target.textContent='✅ Đã chép';}
+  catch(err){e.target.textContent='Không chép được';}
+  setTimeout(()=>{e.target.textContent='📋 Chép hết ghi chú'},2200);
+};
+
+/* ---------- bộ chọn cặp ngày ---------- */
+function pairHTML(P){
+  const h=hoiOf(P), c=cuoiOf(P), gap=days(c.d,h.d), sel=P.id===state.pair;
+  return `<button type="button" class="pair ${sel?'sel':''}" data-pair="${P.id}" aria-pressed="${sel}">
+    <span class="side"><span class="rol">🎁 Ăn hỏi</span><span class="dd">${full(h.d)}</span><span class="am">${h.am} · ${h.cc}</span></span>
+    <span class="mid"><b>${gap===0?'cùng ngày':gap+' ngày'}</b><span class="ar">➜</span></span>
+    <span class="side"><span class="rol">💒 Đám cưới</span><span class="dd">${full(c.d)}</span><span class="am">${c.am} · ${c.cc}</span></span>
+    <span class="foot"><span class="lvl lvl${P.lvl}">${LVICO[P.lvl]} ${LVNAME[P.lvl]}</span>
+      ${P.star?'<span class="star">★ '+P.tag+'</span>':'<span class="lvl lvl'+P.lvl+'">'+P.tag+'</span>'}
+      ${cdHTML(h.d)}</span></button>`;
+}
+function pickerHTML(){
+  const P=getPair(), h=hoiOf(P), c=cuoiOf(P), gap=days(c.d,h.d);
+  let gapNote;
+  if(gap===0)gapNote='Gộp trong một ngày: lễ hỏi buổi sáng, rước dâu buổi trưa, tiệc buổi chiều.';
+  else if(gap<=2)gapNote='Hai lễ dồn dập, người nhà gần như không được nghỉ, nhưng khách ở xa chỉ phải đi một chuyến.';
+  else if(gap<=21)gapNote='Khoảng cách hợp lý: đủ thời gian chốt số bàn, dựng rạp và nghỉ lại sức giữa hai lễ.';
+  else gapNote='Khá xa nhau: phải giữ nhịp chuẩn bị suốt quãng giữa, và khách ở xa sẽ phải đi hai chuyến.';
+  const box=(o,title)=>`<div class="v-box"><h4>${title} — ${full(o.d)}</h4><ul>
+    ${o.b.map(x=>`<li class="b"><span>${esc(x)}</span></li>`).join('')}
+    ${o.g.map(x=>`<li class="g"><span>${esc(x)}</span></li>`).join('')}</ul></div>`;
+  return `<div class="pairs">${PAIRS.map(pairHTML).join('')}</div>
+    <div class="verdict v${P.lvl}" style="margin-top:14px">
+      <div class="v-head">${emo(LVICO[P.lvl])}<strong>${P.tag}</strong><span class="v-gap">${LVNAME[P.lvl]}</span></div>
+      <p style="font-size:14px">${esc(P.why)} ${esc(gapNote)}</p>
+      <div class="v-cols">${box(h,'Ăn hỏi')}${box(c,'Đám cưới')}</div>
+    </div>`;
+}
+
+/* ---------- trục luồng ---------- */
+const track=$('#track'), stage=$('#stage'), scroller=$('#scroller');
+let sel=0;
+const nowIdx=()=>PHASES.findIndex(p=>today>=p.s&&today<=p.e);
+function renderTrack(){
+  const ni=nowIdx();
+  const arr=lab=>`<span class="arr" aria-hidden="true">${lab?`<span class="lab">${lab}</span>`:''}</span>`;
+  const gap=days(cuoiOf(getPair()).d,hoiOf(getPair()).d);
+  track.innerHTML=PHASES.map((p,i)=>{
+    const c=cdRange(p.s,p.e);
+    const dt=p.s.getTime()===p.e.getTime()?full(p.s):dm(p.s)+' – '+dm(p.e);
+    const node=`<button type="button" class="stop ${p.key?'key':''} ${p.tet?'tet':''}" data-i="${i}" aria-pressed="false" aria-label="Bước ${i+1}: ${p.t}">
+      ${i===ni?'<span class="here">Hôm nay</span>':''}
+      <span class="bub">${emo(p.i)}<span class="n num">${i+1}</span></span>
+      <span class="lb">${p.sh}</span><span class="dt num">${dt}</span>
+      <span class="cd num ${c.c}">${c.t}</span>
+      <span class="tc num" data-tpc="${i}" hidden></span></button>`;
+    return (i===0?'':arr(p.sh==='ĐÁM CƯỚI'?(gap===0?'cùng ngày':gap+' ngày'):''))+node;
+  }).join('')+arr()+`<div class="stop term"><span class="bub">${emo('🎉')}</span><span class="lb">Hoàn tất</span></div>`;
+  select(sel,false);
+}
+
+/* ---------- nhánh việc ---------- */
+function renderStage(){
+  stage.innerHTML=PHASES.map((p,i)=>{
+    const open=i===sel;
+    const groups=p.g.map((g,j)=>{
+      const items=g.k.map((k,x)=>{
+        const id=tid(k), c=amt(k);
+        const w=sideOf(k);
+        return `<div class="kid" data-w="${w}" ${(k.p||'CC')==='CC'&&costOf(k)?'data-sh="1"':''}><i class="ah"></i><div class="task"><label for="${id}"><input type="checkbox" id="${id}" ${state.done[id]?'checked':''}><span class="tx"><span>${esc(k.t)}</span>${k.d?`<small>${esc(k.d)}</small>`:''}</span></label><span class="cost num" data-ci="${i}-${j}-${x}" ${halfNow(k)?'title="Một nửa khoản chung, nửa kia bên nhà đối diện lo"':''} ${c?'':'hidden'}>${c?rng(c[0],c[1])+(halfNow(k)?' ½':''):''}</span><span class="chips">${k.w==='?'?`<button type="button" class="wchip assign w${w==='?'?'Q':w}" data-id="${id}" title="Bấm để đổi người chủ trì">${WN[w]}</button>`:`<span class="wchip w${w}">${WN[w]}</span>`}${k.lu?`<button type="button" class="more" aria-expanded="false" aria-controls="lu-${id}">Lưu ý …</button>`:''}<button type="button" class="more note-btn" aria-expanded="false" aria-controls="nt-${id}">✎ Ghi chú${state.notes[id]?' •':''}</button></span></div>${k.lu?`<div class="lu" id="lu-${id}" hidden>${esc(k.lu)}</div>`:''}<div class="nt" id="nt-${id}" hidden><textarea data-note="${id}" rows="3" placeholder="Ghi chú cho việc này: báo giá, tên người liên hệ, điều đã hẹn…">${esc(state.notes[id]||'')}</textarea></div></div>`;
+      }).join('');
+      return `<div class="kid grp-row"><i class="ah"></i><button type="button" class="grp tog" aria-expanded="${open}" aria-controls="g-${i}-${j}"><span class="g-ico">${emo(g.i)}</span><span class="g-tx"><strong>${esc(g.t)}</strong><span class="meta num" data-gc="${i}-${j}"></span></span><span class="pm"></span></button><div class="kids l2" id="g-${i}-${j}" ${open?'':'hidden'}>${items}</div></div>`;
+    }).join('');
+    const c=cdRange(p.s,p.e);
+    const dt=p.s.getTime()===p.e.getTime()?full(p.s):dm(p.s)+' – '+dmy(p.e);
+    const alt=p.alts?`<div class="kid"><i class="ah"></i><div style="width:100%"><strong style="font-size:14.5px">Các lựa chọn ngày dạm ngõ</strong><div class="alts">${p.alts.map(a=>`<div class="alt"><b>${full(a.d)}</b><span>ngày ${a.cc}</span>${a.cur?'<span class="lvl lvl2">Đang chọn</span>':''}${cdHTML(a.d)}<span class="why">${esc(a.why)}</span></div>`).join('')}</div></div></div>`:'';
+    const pick=p.pick?`<div class="kid"><i class="ah"></i><div style="width:100%" class="picker"><strong style="font-size:14.5px">Chọn cặp ngày ăn hỏi và ngày cưới</strong>
+      <p style="font-size:13.5px;color:var(--muted);margin:2px 0 9px">Mỗi thẻ là một cặp đã ghép sẵn. Chọn cặp nào thì toàn bộ sơ đồ và các mốc tính lại theo cặp đó. Mọi đánh giá ngày trên trang là áp dụng cơ học các quy tắc dân gian từ lịch vạn niên, không phải lời tiên đoán; ngày cuối cùng vẫn nên đưa cho người lớn trong nhà xem lại.</p>${pickerHTML()}</div></div>`:'';
+    return `<div class="panel card ${p.key?'key':''} ${p.tet?'tet':''}" id="panel-${i}" ${open?'':'hidden'}><div class="tree">
+      <div class="pcard"><span class="pc-ico">${emo(p.i)}</span><strong>${i+1}. ${esc(p.t)}</strong><small>${dt}</small>
+        <span style="display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center"><span class="cd num ${c.c}">${c.t}</span><span data-pd="${i}" style="font-size:13px;color:var(--muted);font-weight:700"></span></span>
+        ${p.note?`<p class="note">${esc(p.note)}</p>`:''}
+        <span style="margin-top:10px"><button class="money" type="button" data-cost="${i}" hidden>💰 <span data-pc="${i}"></span> · chi tiết</button></span></div>
+      <div class="kids l1">${pick}${groups}${alt}<div class="kid"><i class="ah"></i><div class="padcard"><strong>📝 Sổ ghi chú của hai bạn — bước ${esc(p.sh)}</strong><textarea data-pnote="${esc(p.sh)}" rows="4" placeholder="Ghi những gì hai nhà đã thống nhất, số điện thoại bên cung cấp, điều cần hỏi lại…">${esc(state.pnotes[p.sh]||'')}</textarea></div></div></div></div></div>`;
+  }).join('');
+  applyFilter();
+}
+
+const panel=i=>document.getElementById('panel-'+i);
+const togs=i=>{const p=panel(i);return p?[...p.querySelectorAll('.tog')]:[]};
+const isOpen=b=>b.getAttribute('aria-expanded')==='true';
+const setOpen=(b,on)=>{b.setAttribute('aria-expanded',on);document.getElementById(b.getAttribute('aria-controls')).hidden=!on};
+const nextBtn=$('#next');
+const syncNext=()=>{nextBtn.disabled=sel===PHASES.length-1&&togs(sel).every(isOpen)};
+
+function select(i,center){
+  sel=Math.min(Math.max(i,0),PHASES.length-1);
+  $$('#track .stop[data-i]').forEach(s=>s.setAttribute('aria-pressed',+s.dataset.i===sel));
+  PHASES.forEach((_,k)=>{const el=panel(k);if(el)el.hidden=k!==sel});
+  if(center){
+    const s=$(`#track .stop[data-i="${sel}"]`);
+    if(s)scroller.scrollTo({left:s.offsetLeft-(scroller.clientWidth-s.offsetWidth)/2,behavior:calm()?'auto':'smooth'});
+  }
+  syncNext();
+}
+track.addEventListener('click',e=>{const s=e.target.closest('.stop[data-i]');if(s)select(+s.dataset.i,true)});
+$('#sidebar').addEventListener('click',e=>{
+  const b=e.target.closest('.sbtn'); if(!b)return;
+  state.side=b.dataset.side; save();
+  $$('#sidebar .sbtn').forEach(x=>x.setAttribute('aria-pressed',x.dataset.side===state.side));
+  applyFilter();
+});
+function applyFilter(){
+  $$('#stage .kid[data-w]').forEach(el=>{el.hidden=!(state.side==='all'||el.dataset.w==='CC'||el.dataset.w===state.side||el.dataset.sh==='1')});
+  refresh();
+}
+stage.addEventListener('click',e=>{
+  const as=e.target.closest('.assign');
+  if(as){
+    const id=as.dataset.id, cur=state.assign[id]||'?';
+    const nx=cur==='?'?'CD':cur==='CD'?'CR':null;
+    if(nx)state.assign[id]=nx; else delete state.assign[id];
+    const w=nx||'?';
+    as.className='wchip assign w'+(w==='?'?'Q':w);
+    as.textContent=WN[w];
+    as.closest('.kid').dataset.w=w;
+    save();applyFilter();return;
+  }
+  const mo=e.target.closest('.more');
+  if(mo){const on=mo.getAttribute('aria-expanded')!=='true';mo.setAttribute('aria-expanded',on);mo.textContent=on?'Thu gọn lưu ý':'Lưu ý …';document.getElementById(mo.getAttribute('aria-controls')).hidden=!on;return}
+  const pr=e.target.closest('.pair');
+  if(pr){state.pair=pr.dataset.pair;save();PHASES=buildPhases();renderTrack();renderStage();return}
+  const mb=e.target.closest('[data-cost]');
+  if(mb){openPhaseCost(+mb.dataset.cost);return}
+  const b=e.target.closest('.tog');
+  if(b){setOpen(b,!isOpen(b));syncNext()}
+});
+stage.addEventListener('change',e=>{if(e.target.type==='checkbox'){state.done[e.target.id]=e.target.checked;save();refresh()}});
+stage.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.note!=null){const v=t.value.trim();if(v)state.notes[t.dataset.note]=v;else delete state.notes[t.dataset.note];save();
+    const b=stage.querySelector(`[aria-controls="nt-${t.dataset.note}"]`);if(b)b.textContent='✎ Ghi chú'+(v?' •':'');}
+  else if(t.dataset.pnote!=null){const v=t.value.trim();if(v)state.pnotes[t.dataset.pnote]=v;else delete state.pnotes[t.dataset.pnote];save();}
+});
+$('#all').onclick=()=>{togs(sel).forEach(b=>setOpen(b,true));syncNext()};
+$('#none').onclick=()=>{togs(sel).forEach(b=>setOpen(b,false));syncNext()};
+nextBtn.onclick=()=>{
+  const b=togs(sel).find(x=>!isOpen(x));
+  if(b){setOpen(b,true);b.scrollIntoView({block:'nearest',behavior:calm()?'auto':'smooth'});b.focus({preventScroll:true})}
+  else if(sel<PHASES.length-1){select(sel+1,true);const f=togs(sel).find(x=>!isOpen(x));if(f)setOpen(f,true)}
+  syncNext();
+};
+
+function refresh(){
+  let total=0,done=0,grand=[0,0];
+  const byPay={CD:[0,0],CR:[0,0],CC:[0,0]};
+  PHASES.forEach((p,i)=>{
+    let pt=0,pd=0,pc=[0,0];
+    p.g.forEach((g,j)=>{
+      let gd=0;
+      g.k.forEach((k,x)=>{
+        const c=costOf(k), a=amt(k);
+        if(c){const pk=byPay[k.p||'CC'];pk[0]+=c[0];pk[1]+=c[1]}
+        if(a){pc[0]+=a[0];pc[1]+=a[1]}
+        const ce2=$(`[data-ci="${i}-${j}-${x}"]`);
+        if(ce2){ce2.hidden=!a; if(a){ce2.textContent=rng(a[0],a[1])+(halfNow(k)?' ½':'');
+          if(halfNow(k))ce2.title='Một nửa khoản chung, nửa kia bên nhà đối diện lo'; else ce2.removeAttribute('title');}}
+        if(!visible(k))return;
+        pt++;if(state.done[tid(k)]){pd++;gd++}
+      });
+      const nv=g.k.filter(visible).length;
+      const el=$(`[data-gc="${i}-${j}"]`);if(el)el.textContent=nv?('Xong '+gd+'/'+nv+' việc'):'Không có việc của bên này';
+    });
+    total+=pt;done+=pd;grand=[grand[0]+pc[0],grand[1]+pc[1]];
+    const ce=$(`[data-pc="${i}"]`);if(ce){ce.textContent=rng(pc[0],pc[1]);const btn=ce.closest('[data-cost]');if(btn)btn.hidden=!pc[1]}
+    const te=$(`[data-tpc="${i}"]`);if(te){te.hidden=!pc[1];te.textContent=crng(pc[0],pc[1])}
+    const de=$(`[data-pd="${i}"]`);if(de)de.textContent='Xong '+pd+'/'+pt+' việc';
+    const st=$(`#track .stop[data-i="${i}"]`);if(st)st.style.setProperty('--p',pt?pd/pt*100:0);
+  });
+  $('#pbar').style.width=(total?done/total*100:0)+'%';
+  window.__byPay=byPay;
+  const sn={all:'cả hai bên',CD:'cô dâu và nhà gái',CR:'chú rể và nhà trai'}[state.side||'all'];
+  const pk=state.side==='CD'?byPay.CD:state.side==='CR'?byPay.CR:null;
+  const nq=PHASES.reduce((a,p)=>a+p.g.reduce((b,g)=>b+g.k.filter(k=>sideOf(k)==='?').length,0),0);
+  const hf=[byPay.CC[0]/2,byPay.CC[1]/2];
+  $('#sinfo').textContent='Đang xem việc của '+sn+(pk?' · mọi con số tiền trên trang đang là phần của bên này: lo riêng '+rng1(pk[0],pk[1])+', cộng một nửa khoản chung '+rng1(hf[0],hf[1])+', tổng '+rng1(pk[0]+hf[0],pk[1]+hf[1])+'. Dấu ½ là khoản chung đã chia đôi':'')+(nq?' · còn '+nq+' việc chưa phân, bấm dấu + để chọn người chủ trì':'');
+  $('#ptext').textContent='Đã xong '+done+' trên '+total+' việc. Vòng xanh quanh mỗi bong bóng là phần đã xong của bước đó. Dấu tích và ghi chú được lưu lại, xem ô trạng thái phía trên để biết đang lưu riêng trên máy này hay đồng bộ giữa các máy.';
+  const tlab={all:'Tổng dự kiến',CD:'Tổng nhà gái',CR:'Tổng nhà trai'}[state.side||'all'];
+  $('#totalTxt').textContent=tlab+' '+n1(grand[0])+' – '+n1(grand[1])+' triệu';
+}
+
+/* ---------- đồng bộ giữa các máy ---------- */
+const SHARED=['done','assign','notes','pnotes','tablesCR','tablesCD','hoiCR','hoiCD','dnCD','dnPrice','priceLo','priceHi','pair'];
+const pickShared=()=>{const o={};SHARED.forEach(k=>{if(state[k]!==undefined)o[k]=state[k]});return o};
+const sEl=()=>$('#sync');
+const sMsg=(t,c)=>{const e=sEl();if(e){e.textContent=t;e.className='sbtn sync '+(c||'')}};
+let dbDoc=null, applying=false, writing=false, queued=false, lastSent='', pushT=null, seeded=false;
+
+function openGroups(){return new Set([...$$('#stage .kids.l2')].filter(e=>!e.hidden).map(e=>e.id))}
+function restoreGroups(set){$$('#stage .tog').forEach(b=>{const id=b.getAttribute('aria-controls');if(id&&set.size)setOpen(b,set.has(id))});}
+
+function applyRemote(d){
+  const prevPair=state.pair;
+  const og=openGroups(), sc=window.scrollY;
+  applying=true;
+  SHARED.forEach(k=>{if(d[k]!==undefined)state[k]=d[k]});
+  try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+  applying=false;
+  lastSent=JSON.stringify(pickShared());
+  if(state.pair!==prevPair)renderTrack();
+  renderStage();restoreGroups(og);applyFilter();
+  window.scrollTo(0,sc);
+}
+
+async function push(){
+  if(!dbDoc||applying)return;
+  const o=pickShared(), j=JSON.stringify(o);
+  if(j===lastSent)return;
+  if(writing){queued=true;return}
+  writing=true;sMsg('☁️ Đang lưu…','wait');
+  try{await dbDoc.set(o);lastSent=j;sMsg('☁️ Đã đồng bộ','on')}
+  catch(e){sMsg('⚠️ Chưa lưu được lên mạng','')}
+  writing=false;
+  if(queued){queued=false;push()}
+}
+function schedulePush(){if(!dbDoc||applying)return;clearTimeout(pushT);pushT=setTimeout(push,700)}
+
+const snapData=sn=>{try{if(!sn)return null;if(typeof sn.data==='function')return sn.data();if(sn.data&&typeof sn.data==='object')return sn.data;if(typeof sn==='object')return sn}catch(e){}return null};
+
+async function initSync(){
+  const C=window.claude;
+  if(!C||typeof C.use!=='function'){sMsg('💻 Lưu trên máy này','off');return}
+  let db=null; try{db=await C.use('db')}catch(e){db=null}
+  if(!db){sMsg('💻 Lưu trên máy này','off');return}
+  let doc=null; try{doc=db.doc('plan/state')}catch(e){doc=null}
+  if(!doc||typeof doc.onSnapshot!=='function'){sMsg('💻 Lưu trên máy này','off');return}
+  sMsg('☁️ Đang kết nối…','wait');
+  let settled=false;
+  const t=setTimeout(()=>{if(!settled)sMsg('💻 Lưu trên máy này','off')},10000);
+  const onErr=()=>{settled=true;clearTimeout(t);sMsg('💻 Lưu trên máy này','off')};
+  try{
+    doc.onSnapshot(sn=>{
+      settled=true;clearTimeout(t);
+      dbDoc=doc;onSave=schedulePush;
+      const d=snapData(sn);
+      const has=d&&Object.keys(d).length;
+      if(has){
+        const ae=document.activeElement;
+        if(ae&&ae.tagName==='TEXTAREA'){lastSent='';sMsg('☁️ Có thay đổi mới, bấm ra ngoài ô ghi chú để cập nhật','wait');
+          ae.addEventListener('blur',()=>applyRemote(d),{once:true});return}
+        applyRemote(d);sMsg('☁️ Đã đồng bộ','on');
+      }else if(!seeded){seeded=true;lastSent='';push()}
+    },onErr);
+  }catch(e){onErr()}
+}
+
+sel=Math.max(nowIdx(),0);
+$$('#sidebar .sbtn').forEach(x=>x.setAttribute('aria-pressed',x.dataset.side===(state.side||'all')));
+renderTrack();renderStage();applyFilter();
+initSync();
+</script>
+</body>
+</html>
