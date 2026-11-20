@@ -298,6 +298,7 @@ button.wchip:hover{filter:brightness(.95)}
     <button class="sbtn" type="button" data-side="CR" aria-pressed="false">🤵 Chú rể</button>
     <span class="sinfo" id="sinfo"></span>
     <span class="sbtn sync off" id="sync" style="margin-left:auto">💻 Lưu trên máy này</span>
+    <button class="sbtn" type="button" id="gsBtn">📗 Nối Google Sheet</button>
     <button class="sbtn" type="button" id="backup">💾 Sao lưu / khôi phục</button>
     <button class="sbtn" type="button" id="clearDone">↺ Xóa hết dấu tích</button>
     <button class="sbtn" type="button" id="copyNotes">📋 Chép hết ghi chú</button>
@@ -399,6 +400,10 @@ if(!state.que4){state.dnCD=5;state.dnPrice=1.3;state.que4=1}
 var onSave=null;
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} if(onSave)onSave()};
 if(!state.clr1){state.done={};state.clr1=1;save()}
+try{const h=location.hash||'';
+  if(h.slice(0,3)==='#d='){const d=JSON.parse(decodeURIComponent(h.slice(3)));
+    if(d&&typeof d==='object'){Object.keys(d).forEach(k=>{if(k!=='side'&&k!=='clr1')state[k]=d[k]});save();
+      history.replaceState(null,'',location.pathname+location.search);}}}catch(e){}
 const getPair=()=>PAIRS.find(p=>p.id===state.pair)||PAIRS[0];
 const hoiOf=p=>HOI[p.h], cuoiOf=p=>CUOI[p.c];
 
@@ -761,8 +766,14 @@ $('#backup').onclick=()=>{
   openModal('💾 Sao lưu và khôi phục','Chép đoạn chữ dưới đây để giữ lại, hoặc dán đoạn đã chép vào rồi bấm Khôi phục',
     '<p class="mnote" style="margin-top:0">Đoạn này chứa toàn bộ dấu tích, ghi chú, phân công, số mâm và cặp ngày đang chọn. Gửi cho máy khác rồi dán vào đó là chuyển được hết sang máy đó. Khôi phục sẽ ghi đè dữ liệu hiện tại.</p>'
     +'<textarea id="bkTa" rows="8" style="width:100%;font:600 12px var(--body);padding:10px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)"></textarea>'
-    +'<p style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0"><button class="sbtn" type="button" id="bkCopy">📋 Chép đoạn này</button><button class="sbtn" type="button" id="bkPut">↙ Khôi phục từ đoạn đã dán</button><span class="eq" id="bkMsg"></span></p>');
+    +'<p style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0"><button class="sbtn" type="button" id="bkLink">🔗 Chép link mang sẵn dữ liệu</button><button class="sbtn" type="button" id="bkCopy">📋 Chép đoạn chữ</button><button class="sbtn" type="button" id="bkPut">↙ Khôi phục từ đoạn đã dán</button><span class="eq" id="bkMsg"></span></p>');
   $('#bkTa').value=cur;
+  $('#bkLink').onclick=async e=>{
+    const u=location.origin+location.pathname+'#d='+encodeURIComponent(JSON.stringify(pickShared()));
+    if(u.length>60000){$('#bkMsg').textContent='Ghi chú quá dài cho một link, dùng cách chép đoạn chữ';return}
+    try{await navigator.clipboard.writeText(u);e.target.textContent='✅ Đã chép link';$('#bkMsg').textContent='Gửi link này sang máy kia rồi mở ra là có đủ dữ liệu'}
+    catch(err){$('#bkTa').value=u;$('#bkTa').select();e.target.textContent='Link nằm trong ô trên, bấm Ctrl+C'}
+  };
   $('#bkCopy').onclick=async e=>{try{await navigator.clipboard.writeText($('#bkTa').value);e.target.textContent='✅ Đã chép'}catch(err){$('#bkTa').select();e.target.textContent='Bấm Ctrl+C để chép'}};
   $('#bkPut').onclick=()=>{
     let d=null; try{d=JSON.parse($('#bkTa').value)}catch(e){}
@@ -975,6 +986,85 @@ function refresh(){
   $('#totalTxt').textContent=tlab+' '+n1(grand[0])+' – '+n1(grand[1])+' triệu';
 }
 
+/* ---------- đồng bộ qua Google Sheet ---------- */
+const GS_URL='https://script.google.com/macros/s/AKfycbxWbRpTCfPbR2GJmSGWEMlDgR9FU9ZcEO9LgcgZtW5J_1v_e7D-Zv6HUKOZQE0btw/exec';
+const GSKEY='lich-cuoi-gs';
+const gsCfg=()=>{let c={};try{c=JSON.parse(localStorage.getItem(GSKEY)||'{}')}catch(e){}
+  return {url:String(c.url||GS_URL||'').trim(),code:String(c.code||'').trim()}};
+const gsSet=(u,c)=>{try{localStorage.setItem(GSKEY,JSON.stringify({url:u,code:c}))}catch(e){}};
+let gsOn=false,gsTs=0,gsBusy=false,gsDirty=false,gsT=null,gsSeed=false;
+
+function jsonp(url){return new Promise((res,rej)=>{
+  const cb='gscb'+Math.random().toString(36).slice(2);
+  const sc=document.createElement('script');let done=false;
+  const clean=()=>{try{delete window[cb]}catch(e){window[cb]=undefined}if(sc.parentNode)sc.parentNode.removeChild(sc)};
+  window[cb]=d=>{done=true;clean();res(d)};
+  sc.onerror=()=>{if(!done){clean();rej(new Error('mang'))}};
+  sc.src=url+(url.indexOf('?')<0?'?':'&')+'callback='+cb;
+  document.head.appendChild(sc);
+  setTimeout(()=>{if(!done){clean();rej(new Error('lau'))}},15000);
+})}
+
+async function gsPull(){
+  const c=gsCfg(); if(!c.url||!c.code)return;
+  try{
+    const r=await jsonp(c.url+'?code='+encodeURIComponent(c.code));
+    if(!r||!r.ok)return;
+    if(r.data&&r.ts>gsTs){
+      if(gsDirty)return;
+      const ae=document.activeElement;
+      if(ae&&ae.tagName==='TEXTAREA'){sMsg('📗 Có thay đổi mới, bấm ra ngoài ô ghi chú','wait');
+        ae.addEventListener('blur',()=>{gsTs=r.ts;applyRemote(r.data);sMsg('📗 Đã đồng bộ','on')},{once:true});return}
+      gsTs=r.ts;applyRemote(r.data);
+    }else if(!r.data&&!gsSeed){gsSeed=true;gsPush();return}
+    sMsg('📗 Đã đồng bộ qua Google Sheet','on');
+  }catch(e){sMsg('📗 Chưa gọi được Google Sheet','')}
+}
+
+async function gsPush(){
+  const c=gsCfg(); if(!c.url||!c.code)return;
+  if(gsBusy){gsDirty=true;return}
+  gsBusy=true;gsDirty=false;sMsg('📗 Đang lưu…','wait');
+  try{
+    const res=await fetch(c.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({code:c.code,data:pickShared()})});
+    let j=null;try{j=await res.json()}catch(e){}
+    gsTs=(j&&j.ts)?j.ts:Date.now();
+    sMsg((j&&j.ok===false)?('📗 '+(j.err||'không lưu được')):'📗 Đã lưu lên Google Sheet',(j&&j.ok===false)?'':'on');
+  }catch(e){sMsg('📗 Chưa lưu được, sẽ thử lại','')}
+  gsBusy=false;
+  if(gsDirty)gsPush();
+}
+const gsSchedule=()=>{if(!gsOn)return;gsDirty=true;clearTimeout(gsT);gsT=setTimeout(gsPush,1200)};
+
+function gsStart(){
+  const c=gsCfg(); if(!c.url||!c.code)return false;
+  gsOn=true;onSave=gsSchedule;
+  gsPull();
+  setInterval(()=>{if(!document.hidden)gsPull()},20000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)gsPull()});
+  return true;
+}
+
+$('#gsBtn').onclick=()=>{
+  delete modal.dataset.phase;
+  const c=gsCfg();
+  const inp=(id,lab,val,ph)=>'<label style="display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:10px">'+lab
+    +'<input id="'+id+'" type="text" value="'+esc(val)+'" placeholder="'+ph+'" style="display:block;width:100%;margin-top:4px;font:700 14px var(--body);padding:9px 12px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)"></label>';
+  openModal('📗 Nối với Google Sheet','Để hai máy cùng thấy một dữ liệu khi trang đặt trên GitHub',
+    '<p class="mnote" style="margin-top:0">Link đã điền sẵn, bạn chỉ cần nhập mã ghép đôi rồi bấm Lưu và nối. Làm một lần cho mỗi máy. Máy nào nhập đúng mã này là dùng chung dữ liệu với các máy kia. Mã là thứ duy nhất bảo vệ dữ liệu của bạn, nên giữ kín và đừng đặt kiểu cuoi123.</p>'
+    +inp('gsUrl','Link web app (kết thúc bằng /exec)',c.url,'https://script.google.com/macros/s/..../exec')
+    +inp('gsCode','Mã ghép đôi',c.code,'vi du: do-hue-2027-x9k')
+    +'<p style="display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 0"><button class="sbtn" type="button" id="gsOk">✅ Lưu và nối</button><button class="sbtn" type="button" id="gsOff">✕ Ngắt kết nối</button><span class="eq" id="gsMsg"></span></p>');
+  $('#gsOk').onclick=()=>{
+    const u=$('#gsUrl').value.trim(), k=$('#gsCode').value.trim();
+    if(u.slice(0,8)!=='https://'||u.indexOf('/exec')<0){$('#gsMsg').textContent='Link phải bắt đầu bằng https:// và kết thúc bằng /exec';return}
+    if(k.length<6){$('#gsMsg').textContent='Mã ghép đôi nên dài ít nhất 6 ký tự';return}
+    gsSet(u,k);gsTs=0;gsSeed=false;
+    if(gsStart())$('#gsMsg').textContent='✅ Đã nối, đang lấy dữ liệu về';
+  };
+  $('#gsOff').onclick=()=>{gsSet('','');gsOn=false;onSave=null;$('#gsMsg').textContent='Đã ngắt, trang quay về lưu trên máy này';sMsg('💻 Lưu trên máy này','off')};
+};
+
 /* ---------- đồng bộ giữa các máy ---------- */
 const SHARED=['done','assign','notes','pnotes','tablesCR','tablesCD','hoiCR','hoiCD','dnCD','dnPrice','priceLo','priceHi','pair'];
 const pickShared=()=>{const o={};SHARED.forEach(k=>{if(state[k]!==undefined)o[k]=state[k]});return o};
@@ -1015,15 +1105,15 @@ const snapData=sn=>{try{if(!sn)return null;if(typeof sn.data==='function')return
 
 async function initSync(){
   const C=window.claude;
-  if(!C||typeof C.use!=='function'){sMsg('💻 Lưu trên máy này','off');return}
+  if(!C||typeof C.use!=='function'){if(!gsStart())sMsg('💻 Lưu trên máy này','off');return}
   let db=null; try{db=await C.use('db')}catch(e){db=null}
-  if(!db){sMsg('💻 Lưu trên máy này','off');return}
+  if(!db){if(!gsStart())sMsg('💻 Lưu trên máy này','off');return}
   let doc=null; try{doc=db.doc('plan/state')}catch(e){doc=null}
-  if(!doc||typeof doc.onSnapshot!=='function'){sMsg('💻 Lưu trên máy này','off');return}
+  if(!doc||typeof doc.onSnapshot!=='function'){if(!gsStart())sMsg('💻 Lưu trên máy này','off');return}
   sMsg('☁️ Đang kết nối…','wait');
   let settled=false;
-  const t=setTimeout(()=>{if(!settled)sMsg('💻 Lưu trên máy này','off')},10000);
-  const onErr=()=>{settled=true;clearTimeout(t);sMsg('💻 Lưu trên máy này','off')};
+  const t=setTimeout(()=>{if(!settled&&!gsStart())sMsg('💻 Lưu trên máy này','off')},10000);
+  const onErr=()=>{settled=true;clearTimeout(t);if(!gsStart())sMsg('💻 Lưu trên máy này','off')};
   try{
     doc.onSnapshot(sn=>{
       settled=true;clearTimeout(t);
