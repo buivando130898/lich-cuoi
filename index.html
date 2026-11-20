@@ -988,9 +988,10 @@ function refresh(){
 
 /* ---------- đồng bộ qua Google Sheet ---------- */
 const GS_URL='https://script.google.com/macros/s/AKfycbxWbRpTCfPbR2GJmSGWEMlDgR9FU9ZcEO9LgcgZtW5J_1v_e7D-Zv6HUKOZQE0btw/exec';
+const GS_CODE='do-hue-3djg16yny1';
 const GSKEY='lich-cuoi-gs';
 const gsCfg=()=>{let c={};try{c=JSON.parse(localStorage.getItem(GSKEY)||'{}')}catch(e){}
-  return {url:String(c.url||GS_URL||'').trim(),code:String(c.code||'').trim()}};
+  return {url:String(c.url||GS_URL||'').trim(),code:String(c.code!==undefined?c.code:GS_CODE).trim()}};
 const gsSet=(u,c)=>{try{localStorage.setItem(GSKEY,JSON.stringify({url:u,code:c}))}catch(e){}};
 let gsOn=false,gsTs=0,gsBusy=false,gsDirty=false,gsT=null,gsSeed=false;
 
@@ -1051,7 +1052,7 @@ $('#gsBtn').onclick=()=>{
   const inp=(id,lab,val,ph)=>'<label style="display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:10px">'+lab
     +'<input id="'+id+'" type="text" value="'+esc(val)+'" placeholder="'+ph+'" style="display:block;width:100%;margin-top:4px;font:700 14px var(--body);padding:9px 12px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)"></label>';
   openModal('📗 Nối với Google Sheet','Để hai máy cùng thấy một dữ liệu khi trang đặt trên GitHub',
-    '<p class="mnote" style="margin-top:0">Link đã điền sẵn, bạn chỉ cần nhập mã ghép đôi rồi bấm Lưu và nối. Làm một lần cho mỗi máy. Máy nào nhập đúng mã này là dùng chung dữ liệu với các máy kia. Mã là thứ duy nhất bảo vệ dữ liệu của bạn, nên giữ kín và đừng đặt kiểu cuoi123.</p>'
+    '<p class="mnote" style="margin-top:0">Trang đã nối sẵn, mọi máy mở lên là tự đồng bộ, không phải làm gì. Ô dưới chỉ dùng khi bạn muốn đổi sang mã ghép đôi khác, ví dụ muốn tách dữ liệu ra một chỗ riêng. Máy nào nhập cùng một mã là dùng chung dữ liệu.</p>'
     +inp('gsUrl','Link web app (kết thúc bằng /exec)',c.url,'https://script.google.com/macros/s/..../exec')
     +inp('gsCode','Mã ghép đôi',c.code,'vi du: do-hue-2027-x9k')
     +'<p style="display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 0"><button class="sbtn" type="button" id="gsOk">✅ Lưu và nối</button><button class="sbtn" type="button" id="gsOff">✕ Ngắt kết nối</button><span class="eq" id="gsMsg"></span></p>');
@@ -1062,7 +1063,7 @@ $('#gsBtn').onclick=()=>{
     gsSet(u,k);gsTs=0;gsSeed=false;
     if(gsStart())$('#gsMsg').textContent='✅ Đã nối, đang lấy dữ liệu về';
   };
-  $('#gsOff').onclick=()=>{gsSet('','');gsOn=false;onSave=null;$('#gsMsg').textContent='Đã ngắt, trang quay về lưu trên máy này';sMsg('💻 Lưu trên máy này','off')};
+  $('#gsOff').onclick=()=>{gsSet(GS_URL,'');gsOn=false;onSave=null;$('#gsMsg').textContent='Đã ngắt, trang quay về lưu trên máy này';sMsg('💻 Lưu trên máy này','off')};
 };
 
 /* ---------- đồng bộ giữa các máy ---------- */
